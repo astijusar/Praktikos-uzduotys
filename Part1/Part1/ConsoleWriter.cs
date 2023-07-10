@@ -8,7 +8,7 @@ namespace Part1
 {
     public class ConsoleWriter
     {
-        private int tableWidth = 50;
+        public int tableWidth { get; set; } = 50;
 
         public ConsoleWriter()
         {
@@ -42,6 +42,36 @@ namespace Part1
         public void WriteResultInformation(ComparisonResult results)
         {
             Console.WriteLine($"U:{results.unchanged} M:{results.modified} R:{results.removed} A:{results.added}");
+            Console.WriteLine();
+        }
+
+        public void WriteResult(ComparisonResult results)
+        {
+            int columnWidth = tableWidth / 4;
+
+            Console.WriteLine(new string('-', tableWidth));
+            Console.ForegroundColor = ConsoleColor.Black;
+
+            foreach (var row in results.results)
+            {
+                if (row.Status == ResultStatusEnum.unchanged)
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                else if (row.Status == ResultStatusEnum.modified)
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                else if (row.Status == ResultStatusEnum.removed)
+                    Console.BackgroundColor = ConsoleColor.Red;
+                else
+                    Console.BackgroundColor = ConsoleColor.Green;
+
+                string line = $"| {row.ID}".PadRight(columnWidth) + $"| {row.SourceValue}".PadRight(columnWidth) 
+                    + $"| {row.TargetValue}".PadRight(columnWidth) + $"| {row.Status}".PadRight(columnWidth) + "|";
+
+                Console.WriteLine(line);
+                Console.WriteLine(new string('-', tableWidth));
+            }
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.BackgroundColor = ConsoleColor.Black;
             Console.WriteLine();
         }
     }

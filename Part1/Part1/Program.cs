@@ -9,6 +9,8 @@ namespace Part1
     {
         static void Main(string[] args)
         {
+            Console.WindowWidth = 160;
+
             const string sourceFilePath = "FMB920-default.cfg";
             const string targetFilePath = "FMB920-modified.cfg";
 
@@ -31,7 +33,9 @@ namespace Part1
             FileComparer comparer = new FileComparer();
             ComparisonResult result = comparer.CompareFiles(sourceFile, targetFile);
 
+            wr.tableWidth = 150;
             wr.WriteResultInformation(result);
+            wr.WriteResult(result);
         }
     }
 }
