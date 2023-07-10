@@ -7,23 +7,20 @@ namespace Part1
     {
         static void Main(string[] args)
         {
-            const string sourceFile = "FMB001-default.cfg";
-            const string targetFile = "FMB920-default.cfg";
+            const string sourceFilePath = "FMB001-default.cfg";
+            const string targetFilePath = "FMB920-default.cfg";
 
             /*Console.WriteLine("Source file path: ");
-            string sourceFile = Console.ReadLine();
+            string sourceFilePath = Console.ReadLine();
 
             Console.WriteLine("Target file path: ");
-            string targetFile = Console.ReadLine();*/
+            string targetFilePath = Console.ReadLine();*/
 
+            CfgFile sourceFile = FileReader.ReadFile(sourceFilePath);
+            CfgFile targetFile = FileReader.ReadFile(targetFilePath);
 
-            Hashtable sourceData = FileReader.ReadFile(sourceFile);
-            Hashtable targetData = FileReader.ReadFile(targetFile);
-
-            foreach (DictionaryEntry en in sourceData)
-            {
-                Console.WriteLine($"ID - {en.Key}, VALUE - {en.Value}");
-            }
+            ConsoleWriter.WriteFileInformation(sourceFile);
+            ConsoleWriter.WriteFileInformation(targetFile);
         }
     }
 }
