@@ -11,9 +11,10 @@ namespace Part1
 {
     public static class FileReader
     {
-        public static Hashtable ReadFile(string path)
+        public static CfgFile ReadFile(string path)
         {
-            Hashtable data = new Hashtable();
+            CfgFile file = new CfgFile();
+            file.Name = Path.GetFileName(path);
 
             using (Stream fileStream = File.OpenRead(path), zippedStream = new GZipStream(fileStream, CompressionMode.Decompress))
             {
@@ -26,19 +27,28 @@ namespace Part1
                     {
                         var keyValue = pair.Split(":");
 
-                        if (keyValue.Length == 1)
+                        if (keyValue[0] == "") continue;
+
+                        if (!int.TryParse(keyValue[0], out _))
                         {
-                            data.Add(keyValue[0], null);
+                            file.Information.Add(pair);
                         }
                         else
                         {
-                            data.Add(keyValue[0], keyValue[1]);
+                            if (keyValue.Length == 1)
+                            {
+                                file.Data.Add(keyValue[0], null);
+                            }
+                            else
+                            {
+                                file.Data.Add(keyValue[0], keyValue[1]);
+                            }
                         }
                     }
                 }
             }
 
-            return data;
+            return file;
         }
     }
 }
