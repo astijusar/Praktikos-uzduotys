@@ -6,11 +6,21 @@ using System.Threading.Tasks;
 
 namespace Part1
 {
-    public static class ConsoleWriter
+    public class ConsoleWriter
     {
-        private const int tableWidth = 50;
+        private int tableWidth = 50;
 
-        public static void WriteFileInformation(CfgFile file)
+        public ConsoleWriter()
+        {
+
+        }
+
+        public ConsoleWriter(int tableWidth)
+        {
+            this.tableWidth = tableWidth;
+        }
+
+        public void WriteFileInformation(CfgFile file)
         {
             Console.WriteLine(new string('-', tableWidth));
 
@@ -26,6 +36,12 @@ namespace Part1
 
             Console.WriteLine(new string('-', tableWidth));
 
+            Console.WriteLine();
+        }
+
+        public void WriteResultInformation(ComparisonResult results)
+        {
+            Console.WriteLine($"U:{results.unchanged} M:{results.modified} R:{results.removed} A:{results.added}");
             Console.WriteLine();
         }
     }
