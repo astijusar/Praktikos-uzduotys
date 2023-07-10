@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace Part1
 {
@@ -6,7 +7,23 @@ namespace Part1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            const string sourceFile = "FMB001-default.cfg";
+            const string targetFile = "FMB920-default.cfg";
+
+            /*Console.WriteLine("Source file path: ");
+            string sourceFile = Console.ReadLine();
+
+            Console.WriteLine("Target file path: ");
+            string targetFile = Console.ReadLine();*/
+
+
+            Hashtable sourceData = FileReader.ReadFile(sourceFile);
+            Hashtable targetData = FileReader.ReadFile(targetFile);
+
+            foreach (DictionaryEntry en in sourceData)
+            {
+                Console.WriteLine($"ID - {en.Key}, VALUE - {en.Value}");
+            }
         }
     }
 }
