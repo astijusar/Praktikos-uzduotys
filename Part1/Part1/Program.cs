@@ -14,7 +14,9 @@ namespace Part1
             string sourceFilePath = Console.ReadLine();
 
             Console.WriteLine("Target file path: ");
-            string targetFilePath = Console.ReadLine();*/
+            string targetFilePath = Console.ReadLine();
+
+            Console.Clear();*/
 
             CfgFile sourceFile = FileReader.ReadFile(sourceFilePath);
             CfgFile targetFile = FileReader.ReadFile(targetFilePath);

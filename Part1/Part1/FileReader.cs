@@ -16,36 +16,44 @@ namespace Part1
             CfgFile file = new CfgFile();
             file.Name = Path.GetFileName(path);
 
-            using (Stream fileStream = File.OpenRead(path), zippedStream = new GZipStream(fileStream, CompressionMode.Decompress))
+            try
             {
-                using (StreamReader reader = new StreamReader(zippedStream))
+                using (Stream fileStream = File.OpenRead(path), zippedStream = new GZipStream(fileStream, CompressionMode.Decompress))
                 {
-                    var line = reader.ReadToEnd();
-                    var pairs = line.Split(";");
-
-                    foreach (var pair in pairs)
+                    using (StreamReader reader = new StreamReader(zippedStream))
                     {
-                        var keyValue = pair.Split(":");
+                        var line = reader.ReadToEnd();
+                        var pairs = line.Split(";");
 
-                        if (keyValue[0] == "") continue;
+                        foreach (var pair in pairs)
+                        {
+                            var keyValue = pair.Split(":");
 
-                        if (!int.TryParse(keyValue[0], out _))
-                        {
-                            file.Information.Add(pair);
-                        }
-                        else
-                        {
-                            if (keyValue.Length == 1)
+                            if (keyValue[0] == "") continue;
+
+                            if (!int.TryParse(keyValue[0], out _))
                             {
-                                file.Data.Add(keyValue[0], null);
+                                file.Information.Add(pair);
                             }
                             else
                             {
-                                file.Data.Add(keyValue[0], keyValue[1]);
+                                if (keyValue.Length == 1)
+                                {
+                                    file.Data.Add(keyValue[0], null);
+                                }
+                                else
+                                {
+                                    file.Data.Add(keyValue[0], keyValue[1]);
+                                }
                             }
                         }
                     }
                 }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.Write($"File not found using the given path - {path}");
+                Environment.Exit(1);
             }
 
             return file;
