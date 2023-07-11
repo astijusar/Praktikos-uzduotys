@@ -39,20 +39,29 @@ namespace Part1
             Console.WriteLine();
         }
 
-        public void WriteResultInformation(ComparisonResult results)
+        public void WriteResultSummaryInformation(ComparisonResult results)
         {
             Console.WriteLine($"U:{results.unchanged} M:{results.modified} R:{results.removed} A:{results.added}");
             Console.WriteLine();
         }
 
-        public void WriteResult(ComparisonResult results)
+        public void WriteResult(List<ComparisonResultEntry> results)
         {
             int columnWidth = tableWidth / 4;
 
-            Console.WriteLine(new string('-', tableWidth));
+            if (results.Count == 0)
+            {
+                Console.Write("There are no results");
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine(new string('-', tableWidth));
+            }
+
             Console.ForegroundColor = ConsoleColor.Black;
 
-            foreach (var row in results.results)
+            foreach (var row in results)
             {
                 if (row.Status == ResultStatusEnum.unchanged)
                     Console.BackgroundColor = ConsoleColor.Gray;
@@ -72,6 +81,14 @@ namespace Part1
 
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine();
+        }
+
+        public void WriteMenu()
+        {
+            Console.WriteLine("[1] Show result summary");
+            Console.WriteLine("[2] Show all results");
+            Console.WriteLine("[3] Exit");
             Console.WriteLine();
         }
     }
