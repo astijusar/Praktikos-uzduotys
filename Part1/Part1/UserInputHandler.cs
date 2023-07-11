@@ -11,23 +11,24 @@ namespace Part1
     {
         public uint GetUserMenuChoice(int choiceMax)
         {
-            uint choice = 0;
-            Action getInput = () =>
-            {
-                Console.Write("> ");
-                uint.TryParse(Console.ReadLine(), out choice);
-            };
-
-            getInput();
+            uint choice = GetInput();
 
             while (choice < 1 || choice > choiceMax)
             {
-                Console.Clear();
                 Console.WriteLine("Please try again");
-                //writer.WriteMenu();
 
-                getInput();
+                choice = GetInput();
             }
+
+            return choice;
+        }
+
+        private uint GetInput()
+        {
+            uint choice = 0;
+
+            Console.Write("> ");
+            uint.TryParse(Console.ReadLine(), out choice);
 
             return choice;
         }

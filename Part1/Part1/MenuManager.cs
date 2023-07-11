@@ -29,7 +29,10 @@ namespace Part1
             Console.Clear();
             writer.WriteFileInformation(sourceFile);
             writer.WriteFileInformation(targetFile);
-            //writer.WriteMenu();
+            Console.WriteLine("[1] Show result summary");
+            Console.WriteLine("[2] Show all results");
+            Console.WriteLine("[3] Exit");
+            Console.WriteLine();
 
             uint choice = userInputHandler.GetUserMenuChoice(3);
             switch (choice)
@@ -55,7 +58,7 @@ namespace Part1
             writer.WriteFileInformation(targetFile);
             writer.WriteResultSummaryInformation(result);
 
-            Console.WriteLine("Press any key to go back");
+            Console.WriteLine("Press any key to go back...");
             Console.ReadKey();
 
             MainMenu();
@@ -115,7 +118,7 @@ namespace Part1
             writer.WriteFileInformation(targetFile);
             writer.WriteResultInformation(filteredById);
 
-            Console.WriteLine("Press any key to go back");
+            Console.WriteLine("Press any key to go back...");
             Console.ReadKey();
             MainMenu();
         }
