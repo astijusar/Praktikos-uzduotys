@@ -13,7 +13,7 @@ namespace Part1
         {
             Console.WindowWidth = 170;
 
-            const string sourceFilePath = "FMB001-default.cfg";
+            const string sourceFilePath = "FMB920-default.cfg";
             const string targetFilePath = "FMB920-modified.cfg";
 
             /*Console.WriteLine("Enter source file path: ");

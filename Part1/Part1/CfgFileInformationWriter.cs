@@ -50,11 +50,14 @@ namespace Part1
             {
                 Console.Write("There are no results");
                 Console.WriteLine();
+                return;
             }
-            else
-            {
-                Console.WriteLine(new string('-', tableWidth));
-            }
+
+            Console.WriteLine(new string('-', tableWidth));
+            string line = "| ID".PadRight(columnWidth) + "| Source Value".PadRight(columnWidth)
+                + "| Target Value".PadRight(columnWidth) + "| Status".PadRight(columnWidth) + "|";
+            Console.WriteLine(line);
+            Console.WriteLine(new string('-', tableWidth));
 
             Console.ForegroundColor = ConsoleColor.Black;
 
@@ -69,7 +72,7 @@ namespace Part1
                 else
                     Console.BackgroundColor = ConsoleColor.Green;
 
-                string line = $"| {row.ID}".PadRight(columnWidth) + $"| {row.SourceValue}".PadRight(columnWidth)
+                line = $"| {row.ID}".PadRight(columnWidth) + $"| {row.SourceValue}".PadRight(columnWidth)
                     + $"| {row.TargetValue}".PadRight(columnWidth) + $"| {row.Status}".PadRight(columnWidth) + "|";
 
                 Console.WriteLine(line);
