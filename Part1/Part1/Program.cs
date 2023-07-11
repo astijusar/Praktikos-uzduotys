@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Part1.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,28 +11,34 @@ namespace Part1
     {
         static void Main(string[] args)
         {
-            Console.WindowWidth = 160;
+            Console.WindowWidth = 170;
 
-            //const string sourceFilePath = "FMB001-default.cfg";
-            //const string targetFilePath = "FMB920-modified.cfg";
+            const string sourceFilePath = "FMB001-default.cfg";
+            const string targetFilePath = "FMB920-modified.cfg";
 
-            Console.WriteLine("Enter source file path: ");
+            /*Console.WriteLine("Enter source file path: ");
             string sourceFilePath = Console.ReadLine();
 
             Console.WriteLine("Enter target file path: ");
             string targetFilePath = Console.ReadLine();
 
-            Console.Clear();
+            Console.Clear();*/
 
-            CfgFile sourceFile = FileReader.ReadFile(sourceFilePath);
-            CfgFile targetFile = FileReader.ReadFile(targetFilePath);
+            IFileReader cfgFileReader = new CfgFileReader();
 
-            ConsoleWriter wr = new ConsoleWriter(150);
+            ICfgFile sourceFile = (ICfgFile)cfgFileReader.ReadFile(sourceFilePath);
+            ICfgFile targetFile = (ICfgFile)cfgFileReader.ReadFile(targetFilePath);
 
-            FileComparer comparer = new FileComparer();
+            IFileInformationWriter cfgConsoleWriter = new CfgFileInformationWriter(160);
+            IFileComparisonMethod comparisonMethod = new CfgFileComparisonMethod();
+
+            FileComparer comparer = new FileComparer(comparisonMethod);
             ComparisonResult result = comparer.CompareFiles(sourceFile, targetFile);
 
-            NavigationManager navManager = new NavigationManager(sourceFile, targetFile, result, wr);
+            IUserInputHandler userInputHandler = new UserInputHandler();
+            IMenuManager menuManager = new MenuManager(sourceFile, targetFile, result, cfgConsoleWriter, userInputHandler);
+            INavigationManager navManager = new NavigationManager(menuManager);
+
             navManager.StartNavigation();
         }
     }

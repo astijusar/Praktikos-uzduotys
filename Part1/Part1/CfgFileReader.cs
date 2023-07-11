@@ -6,14 +6,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Part1.Interfaces;
 
 namespace Part1
 {
-    public static class FileReader
+    public class CfgFileReader : IFileReader
     {
-        public static CfgFile ReadFile(string path)
+        public IFile ReadFile(string path)
         {
-            CfgFile file = new CfgFile();
+            ICfgFile file = new CfgFile();
             file.Name = Path.GetFileName(path);
 
             try

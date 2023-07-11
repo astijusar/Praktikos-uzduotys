@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Part1.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,29 +7,31 @@ using System.Threading.Tasks;
 
 namespace Part1
 {
-    public class ConsoleWriter
+    public class CfgFileInformationWriter : IFileInformationWriter
     {
         public int tableWidth { get; set; } = 50;
 
-        public ConsoleWriter()
+        public CfgFileInformationWriter()
         {
 
         }
 
-        public ConsoleWriter(int tableWidth)
+        public CfgFileInformationWriter(int tableWidth)
         {
             this.tableWidth = tableWidth;
         }
 
-        public void WriteFileInformation(CfgFile file)
+        public void WriteFileInformation(IFile file)
         {
+            ICfgFile cfgFile = (CfgFile)file;
+
             Console.WriteLine(new string('-', tableWidth));
 
             Console.WriteLine($"| File name: {file.Name}".PadRight(tableWidth - 1) + "|");
 
             Console.WriteLine(new string('-', tableWidth));
 
-            foreach (var ln in file.Information)
+            foreach (var ln in cfgFile.Information)
             {
                 string line = $"| {ln}".PadRight(tableWidth - 1) + "|";
                 Console.WriteLine(line);
@@ -39,13 +42,7 @@ namespace Part1
             Console.WriteLine();
         }
 
-        public void WriteResultSummaryInformation(ComparisonResult results)
-        {
-            Console.WriteLine($"U:{results.unchanged} M:{results.modified} R:{results.removed} A:{results.added}");
-            Console.WriteLine();
-        }
-
-        public void WriteResult(List<ComparisonResultEntry> results)
+        public void WriteResultInformation(List<ComparisonResultEntry> results)
         {
             int columnWidth = tableWidth / 4;
 
@@ -72,7 +69,7 @@ namespace Part1
                 else
                     Console.BackgroundColor = ConsoleColor.Green;
 
-                string line = $"| {row.ID}".PadRight(columnWidth) + $"| {row.SourceValue}".PadRight(columnWidth) 
+                string line = $"| {row.ID}".PadRight(columnWidth) + $"| {row.SourceValue}".PadRight(columnWidth)
                     + $"| {row.TargetValue}".PadRight(columnWidth) + $"| {row.Status}".PadRight(columnWidth) + "|";
 
                 Console.WriteLine(line);
@@ -84,11 +81,9 @@ namespace Part1
             Console.WriteLine();
         }
 
-        public void WriteMenu()
+        public void WriteResultSummaryInformation(ComparisonResult result)
         {
-            Console.WriteLine("[1] Show result summary");
-            Console.WriteLine("[2] Show all results");
-            Console.WriteLine("[3] Exit");
+            Console.WriteLine($"U:{result.unchanged} M:{result.modified} R:{result.removed} A:{result.added}");
             Console.WriteLine();
         }
     }

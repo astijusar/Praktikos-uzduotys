@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Part1.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Part1
 {
-    public class CfgFile
+    public class CfgFile : ICfgFile
     {
         public string Name { get; set; }
         public List<string> Information { get; set; }
