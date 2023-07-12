@@ -111,6 +111,25 @@ namespace Part1
             Console.Clear();
             writer.WriteFileInformation(sourceFile);
             writer.WriteFileInformation(targetFile);
+            
+            if (status != "" || id != "")
+            {
+                Console.Write("Filtered by: ");
+            }
+            if (status != "")
+            {
+                Console.Write($"Status - {status} ");
+
+                if (id != "")
+                {
+                    Console.Write(", ");
+                }
+            }
+            if (id != "")
+            {
+                Console.Write($"ID - {id} \n");
+            }
+
             writer.WriteResultInformation(filteredById);
 
             UserInputHandler.AnyKeyInput("Press any key to go back...");
