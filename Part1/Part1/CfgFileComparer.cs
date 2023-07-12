@@ -9,6 +9,13 @@ namespace Part1
 {
     public class CfgFileComparer : IFileComparer
     {
+        /// <summary>
+        /// Compare two .cfg files
+        /// </summary>
+        /// <param name="source">Original file that will be used in the comparison</param>
+        /// <param name="target">File that will be compared against the source file</param>
+        /// <returns>Return an object with comparison results</returns>
+        /// <exception cref="Exception">source and target files need to implement the ICfgFile interface</exception>
         public ComparisonResult CompareFiles(IFile source, IFile target)
         {
             ICfgFile sourceCfgFile = source as ICfgFile;
@@ -16,7 +23,7 @@ namespace Part1
 
             if (sourceCfgFile == null && targetCfgFile == null)
             {
-                throw new Exception("Given objects need to implement ICfgFile interface");
+                throw new Exception("Given objects need to implement the ICfgFile interface");
             }
 
             ComparisonResult result = new ComparisonResult();

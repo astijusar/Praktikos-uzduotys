@@ -22,6 +22,9 @@ namespace Part1
             this.writer = writer;
         }
 
+        /// <summary>
+        /// Main menu after file path input and file comparison
+        /// </summary>
         public void MainMenu()
         {
             Console.Clear();
@@ -48,6 +51,9 @@ namespace Part1
             }
         }
 
+        /// <summary>
+        /// Console menu where comparison result summary is displayed
+        /// </summary>
         private void ResultSummaryMenu()
         {
             Console.Clear();
@@ -61,6 +67,9 @@ namespace Part1
             MainMenu();
         }
 
+        /// <summary>
+        /// Console meny where a comparison result table is displayed with filtering option
+        /// </summary>
         private void FullResultMenu()
         {
             Console.Clear();
@@ -88,6 +97,9 @@ namespace Part1
             }
         }
 
+        /// <summary>
+        /// Console menu where comparison result filters can be chosen
+        /// </summary>
         private void FilterResultsMenu()
         {
             Console.Clear();

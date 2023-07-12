@@ -10,6 +10,10 @@ namespace Part1
     {
         private const int tableWidth = 160;
 
+        /// <summary>
+        /// Writes a table to the console with comparison results
+        /// </summary>
+        /// <param name="results">A list of comparison result entries</param>
         public static void WriteResultInformation(List<ComparisonResultEntry> results)
         {
             int columnWidth = tableWidth / 4;
@@ -55,6 +59,10 @@ namespace Part1
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Writes a comparison result summary in the console
+        /// </summary>
+        /// <param name="result">A comparison result object</param>
         public static void WriteResultSummaryInformation(ComparisonResult result)
         {
             Console.WriteLine($"U:{result.unchanged} M:{result.modified} R:{result.removed} A:{result.added}");

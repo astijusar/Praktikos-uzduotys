@@ -11,13 +11,18 @@ namespace Part1
     {
         private const int tableWidth = 50;
 
+        /// <summary>
+        /// Writes the .cfg file information to the console
+        /// </summary>
+        /// <param name="file">A file object</param>
+        /// <exception cref="Exception">The given file object needs to implement the ICfgFile interface</exception>
         public void WriteFileInformation(IFile file)
         {
             ICfgFile cfgFile = file as ICfgFile;
 
             if (cfgFile == null)
             {
-                throw new Exception("Given object needs to implement ICfgFile interface");
+                throw new Exception("Given object needs to implement the ICfgFile interface");
             }
 
             Console.WriteLine(new string('-', tableWidth));
