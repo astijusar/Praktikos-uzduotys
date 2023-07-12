@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Part1.Interfaces
 {
-    public interface IFileComparisonMethod
+    public interface IFileComparer
     {
         ComparisonResult CompareFiles(IFile source, IFile target);
     }

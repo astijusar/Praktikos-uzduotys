@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Part1
 {
-    public class CfgFileComparisonMethod : IFileComparisonMethod
+    public class CfgFileComparer : IFileComparer
     {
         public ComparisonResult CompareFiles(IFile source, IFile target)
         {
