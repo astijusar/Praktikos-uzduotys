@@ -27,10 +27,10 @@ namespace Part1
             Console.WriteLine(line);
             Console.WriteLine(new string('-', tableWidth));
 
-            Console.ForegroundColor = ConsoleColor.Black;
-
             foreach (var row in results)
             {
+                Console.ForegroundColor = ConsoleColor.Black;
+
                 if (row.Status == ResultStatusEnum.unchanged)
                     Console.BackgroundColor = ConsoleColor.Gray;
                 else if (row.Status == ResultStatusEnum.modified)
@@ -44,11 +44,14 @@ namespace Part1
                     + $"| {row.TargetValue}".PadRight(columnWidth) + $"| {row.Status}".PadRight(columnWidth) + "|";
 
                 Console.WriteLine(line);
-                Console.WriteLine(new string('-', tableWidth));
+                Console.Write(new string('-', tableWidth));
+
+                Console.ResetColor();
+
+                Console.WriteLine();
             }
 
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ResetColor();
             Console.WriteLine();
         }
 
