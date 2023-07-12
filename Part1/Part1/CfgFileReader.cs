@@ -12,6 +12,11 @@ namespace Part1
 {
     public class CfgFileReader : IFileReader
     {
+        /// <summary>
+        /// Reads a .cfg file
+        /// </summary>
+        /// <param name="path">File path</param>
+        /// <returns>An object that implements the IFile interface</returns>
         public IFile ReadFile(string path)
         {
             ICfgFile file = new CfgFile();
@@ -54,6 +59,16 @@ namespace Part1
             catch (FileNotFoundException)
             {
                 Console.Write($"File not found using the given path - {path}");
+                Environment.Exit(1);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.Write($"Directory not found using the given path - {path}");
+                Environment.Exit(1);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Console.Write($"The access to the file is unauthorized");
                 Environment.Exit(1);
             }
 
