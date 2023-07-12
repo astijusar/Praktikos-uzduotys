@@ -26,7 +26,7 @@ namespace Part1
             ICfgFile sourceFile = (ICfgFile)cfgFileReader.ReadFile(sourceFilePath);
             ICfgFile targetFile = (ICfgFile)cfgFileReader.ReadFile(targetFilePath);
 
-            IFileInformationWriter cfgConsoleWriter = new CfgFileInformationWriter(160);
+            IFileInformationWriter cfgConsoleWriter = new CfgFileInformationWriter();
             IFileComparisonMethod comparisonMethod = new CfgFileComparisonMethod();
 
             FileComparer comparer = new FileComparer(comparisonMethod);

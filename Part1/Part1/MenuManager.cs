@@ -54,7 +54,7 @@ namespace Part1
 
             writer.WriteFileInformation(sourceFile);
             writer.WriteFileInformation(targetFile);
-            writer.WriteResultSummaryInformation(result);
+            ComparisonResultInformationWriter.WriteResultSummaryInformation(result);
 
             UserInputHandler.AnyKeyInput("Press any key to go back...");
 
@@ -67,7 +67,7 @@ namespace Part1
 
             writer.WriteFileInformation(sourceFile);
             writer.WriteFileInformation(targetFile);
-            writer.WriteResultInformation(result.results);
+            ComparisonResultInformationWriter.WriteResultInformation(result.results);
 
             Console.WriteLine();
             Console.WriteLine("[1] Filter by ID or status");
@@ -130,7 +130,9 @@ namespace Part1
                 Console.Write($"ID - {id} \n");
             }
 
-            writer.WriteResultInformation(filteredById);
+            Console.WriteLine();
+
+            ComparisonResultInformationWriter.WriteResultInformation(filteredById);
 
             UserInputHandler.AnyKeyInput("Press any key to go back...");
 

@@ -9,7 +9,5 @@ namespace Part1.Interfaces
     public interface IFileInformationWriter
     {
         void WriteFileInformation(IFile file);
-        void WriteResultSummaryInformation(ComparisonResult result);
-        void WriteResultInformation(List<ComparisonResultEntry> results);
     }
 }
