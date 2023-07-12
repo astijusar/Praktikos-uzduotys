@@ -11,8 +11,13 @@ namespace Part1
     {
         public ComparisonResult CompareFiles(IFile source, IFile target)
         {
-            ICfgFile sourceCfgFile = (ICfgFile)source;
-            ICfgFile targetCfgFile = (ICfgFile)target;
+            ICfgFile sourceCfgFile = source as ICfgFile;
+            ICfgFile targetCfgFile = target as ICfgFile;
+
+            if (sourceCfgFile == null && targetCfgFile == null)
+            {
+                throw new Exception("Given objects need to implement ICfgFile interface");
+            }
 
             ComparisonResult result = new ComparisonResult();
 
@@ -22,7 +27,6 @@ namespace Part1
                 {
                     if (sourceCfgFile.Data[key].Equals(targetCfgFile.Data[key]))
                     {
-                        // Implement factory pattern?
                         result.results.Add(new ComparisonResultEntry
                         {
                             ID = key,
