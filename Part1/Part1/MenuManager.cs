@@ -13,15 +13,13 @@ namespace Part1
         private IFile targetFile;
         private IFileInformationWriter writer;
         private ComparisonResult result;
-        private IUserInputHandler userInputHandler;
 
-        public MenuManager(IFile sourceFile, IFile targetFile, ComparisonResult result, IFileInformationWriter writer, IUserInputHandler userInputHandler)
+        public MenuManager(IFile sourceFile, IFile targetFile, ComparisonResult result, IFileInformationWriter writer)
         {
             this.sourceFile = sourceFile;
             this.targetFile = targetFile;
             this.result = result;
             this.writer = writer;
-            this.userInputHandler = userInputHandler;
         }
 
         public void MainMenu()
@@ -34,7 +32,7 @@ namespace Part1
             Console.WriteLine("[3] Exit");
             Console.WriteLine();
 
-            uint choice = userInputHandler.GetUserMenuChoice(3);
+            uint choice = UserInputHandler.GetUserMenuChoice(3);
             switch (choice)
             {
                 case 1:
@@ -58,8 +56,7 @@ namespace Part1
             writer.WriteFileInformation(targetFile);
             writer.WriteResultSummaryInformation(result);
 
-            Console.WriteLine("Press any key to go back...");
-            Console.ReadKey();
+            UserInputHandler.AnyKeyInput("Press any key to go back...");
 
             MainMenu();
         }
@@ -77,7 +74,7 @@ namespace Part1
             Console.WriteLine("[2] Return");
             Console.WriteLine();
 
-            uint choice = userInputHandler.GetUserMenuChoice(2);
+            uint choice = UserInputHandler.GetUserMenuChoice(2);
             switch (choice)
             {
                 case 1:
@@ -94,8 +91,7 @@ namespace Part1
         private void FilterResultsMenu()
         {
             Console.Clear();
-            Console.WriteLine("Enter status to filter by (leave empty to not filter):");
-            var status = Console.ReadLine();
+            var status = UserInputHandler.GetLineInput("Enter status to filter by (leave empty to not filter):");
 
             var filteredByStatus = result.results;
             if (!string.IsNullOrEmpty(status))
@@ -104,9 +100,8 @@ namespace Part1
             }
 
             Console.Clear();
-            Console.WriteLine("Enter ID to filter by (leave empty to not filter):");
 
-            var id = Console.ReadLine();
+            var id = UserInputHandler.GetLineInput("Enter ID to filter by(leave empty to not filter):");
             var filteredById = filteredByStatus;
             if (!string.IsNullOrEmpty(id))
             {
@@ -118,8 +113,8 @@ namespace Part1
             writer.WriteFileInformation(targetFile);
             writer.WriteResultInformation(filteredById);
 
-            Console.WriteLine("Press any key to go back...");
-            Console.ReadKey();
+            UserInputHandler.AnyKeyInput("Press any key to go back...");
+
             MainMenu();
         }
     }

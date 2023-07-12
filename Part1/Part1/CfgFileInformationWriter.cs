@@ -23,7 +23,7 @@ namespace Part1
 
         public void WriteFileInformation(IFile file)
         {
-            ICfgFile cfgFile = (CfgFile)file;
+            ICfgFile cfgFile = (ICfgFile)file;
 
             Console.WriteLine(new string('-', tableWidth));
 

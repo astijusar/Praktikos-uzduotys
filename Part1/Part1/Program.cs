@@ -16,13 +16,10 @@ namespace Part1
             const string sourceFilePath = "FMB920-default.cfg";
             const string targetFilePath = "FMB920-modified.cfg";
 
-            /*Console.WriteLine("Enter source file path: ");
-            string sourceFilePath = Console.ReadLine();
+            //string sourceFilePath = userInputHandler.GetLineInput("Enter source file path:");
+            //string targetFilePath = userInputHandler.GetLineInput("Enter target file path:");
 
-            Console.WriteLine("Enter target file path: ");
-            string targetFilePath = Console.ReadLine();
-
-            Console.Clear();*/
+            Console.Clear();
 
             IFileReader cfgFileReader = new CfgFileReader();
 
@@ -35,8 +32,7 @@ namespace Part1
             FileComparer comparer = new FileComparer(comparisonMethod);
             ComparisonResult result = comparer.CompareFiles(sourceFile, targetFile);
 
-            IUserInputHandler userInputHandler = new UserInputHandler();
-            IMenuManager menuManager = new MenuManager(sourceFile, targetFile, result, cfgConsoleWriter, userInputHandler);
+            IMenuManager menuManager = new MenuManager(sourceFile, targetFile, result, cfgConsoleWriter);
             INavigationManager navManager = new NavigationManager(menuManager);
 
             navManager.StartNavigation();
