@@ -13,7 +13,12 @@ namespace Part1
 
         public void WriteFileInformation(IFile file)
         {
-            ICfgFile cfgFile = (ICfgFile)file;
+            ICfgFile cfgFile = file as ICfgFile;
+
+            if (cfgFile == null)
+            {
+                throw new Exception("Given object needs to implement ICfgFile interface");
+            }
 
             Console.WriteLine(new string('-', tableWidth));
 
