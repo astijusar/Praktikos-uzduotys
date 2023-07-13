@@ -45,11 +45,11 @@ namespace Part1
                 widestColumn = MinimumTableWidth / columns;
             }
 
-            Console.WriteLine(new string('-', currentTableWidth));
+            Console.WriteLine(new string('-', currentTableWidth + 1));
             string line = "| ID".PadRight(widestColumn) + "| Source Value".PadRight(widestColumn)
                 + "| Target Value".PadRight(widestColumn) + "| Status".PadRight(widestColumn) + "|";
             Console.WriteLine(line);
-            Console.WriteLine(new string('-', currentTableWidth));
+            Console.WriteLine(new string('-', currentTableWidth + 1));
 
             foreach (var row in results)
             {
@@ -67,11 +67,17 @@ namespace Part1
                 line = $"| {row.ID}".PadRight(widestColumn) + $"| {row.SourceValue}".PadRight(widestColumn)
                     + $"| {row.TargetValue}".PadRight(widestColumn) + $"| {row.Status}".PadRight(widestColumn) + "|";
 
-                Console.WriteLine(line);
-                Console.Write(new string('-', currentTableWidth));
+                ConsoleColor prevBackgroundColor = Console.BackgroundColor;
+                ConsoleColor prevForegroundColor = Console.ForegroundColor;
 
+                Console.Write(line);
                 Console.ResetColor();
+                Console.WriteLine();
 
+                Console.ForegroundColor = prevForegroundColor;
+                Console.BackgroundColor = prevBackgroundColor;
+                Console.Write(new string('-', currentTableWidth + 1));
+                Console.ResetColor();
                 Console.WriteLine();
             }
 
