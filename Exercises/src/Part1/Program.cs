@@ -13,11 +13,11 @@ namespace Part1
         {
             Console.WindowWidth = 170;
 
-            const string sourceFilePath = "FMB920-default.cfg";
-            const string targetFilePath = "FMB920-modified.cfg";
+            //const string sourceFilePath = "FMB920-default.cfg";
+            //const string targetFilePath = "FMB920-modified.cfg";
 
-            //string sourceFilePath = UserInputHandler.GetLineInput("Enter source file path:");
-            //string targetFilePath = UserInputHandler.GetLineInput("Enter target file path:");
+            string sourceFilePath = UserInputHandler.GetLineInput("Enter source file path:");
+            string targetFilePath = UserInputHandler.GetLineInput("Enter target file path:");
 
             Console.Clear();
 
