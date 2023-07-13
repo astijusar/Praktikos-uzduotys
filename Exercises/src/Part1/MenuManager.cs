@@ -9,17 +9,17 @@ namespace Part1
 {
     public class MenuManager : IMenuManager
     {
-        private IFile sourceFile;
-        private IFile targetFile;
-        private IFileInformationWriter writer;
-        private ComparisonResult result;
+        private IFile _sourceFile;
+        private IFile _targetFile;
+        private IFileInformationWriter _writer;
+        private ComparisonResult _result;
 
         public MenuManager(IFile sourceFile, IFile targetFile, ComparisonResult result, IFileInformationWriter writer)
         {
-            this.sourceFile = sourceFile;
-            this.targetFile = targetFile;
-            this.result = result;
-            this.writer = writer;
+            _sourceFile = sourceFile;
+            _targetFile = targetFile;
+            _result = result;
+            _writer = writer;
         }
 
         /// <summary>
@@ -28,8 +28,8 @@ namespace Part1
         public void MainMenu()
         {
             Console.Clear();
-            writer.WriteFileInformation(sourceFile);
-            writer.WriteFileInformation(targetFile);
+            _writer.WriteFileInformation(_sourceFile);
+            _writer.WriteFileInformation(_targetFile);
             Console.WriteLine("[1] Show result summary");
             Console.WriteLine("[2] Show all results");
             Console.WriteLine("[3] Exit");
@@ -58,9 +58,9 @@ namespace Part1
         {
             Console.Clear();
 
-            writer.WriteFileInformation(sourceFile);
-            writer.WriteFileInformation(targetFile);
-            ComparisonResultInformationWriter.WriteResultSummaryInformation(result);
+            _writer.WriteFileInformation(_sourceFile);
+            _writer.WriteFileInformation(_targetFile);
+            ComparisonResultInformationWriter.WriteResultSummaryInformation(_result);
 
             UserInputHandler.AnyKeyInput("Press any key to go back...");
 
@@ -74,9 +74,9 @@ namespace Part1
         {
             Console.Clear();
 
-            writer.WriteFileInformation(sourceFile);
-            writer.WriteFileInformation(targetFile);
-            ComparisonResultInformationWriter.WriteResultInformation(result.results);
+            _writer.WriteFileInformation(_sourceFile);
+            _writer.WriteFileInformation(_targetFile);
+            ComparisonResultInformationWriter.WriteResultInformation(_result.results);
 
             Console.WriteLine("[1] Filter by ID or status");
             Console.WriteLine("[2] Return");
@@ -104,10 +104,10 @@ namespace Part1
             Console.Clear();
             var status = UserInputHandler.GetLineInput("Enter status to filter by (leave empty to not filter):");
 
-            var filteredByStatus = result.results;
+            var filteredByStatus = _result.results;
             if (!string.IsNullOrEmpty(status))
             {
-                filteredByStatus = result.results.Where(r => r.Status.ToString().Equals(status)).ToList();
+                filteredByStatus = _result.results.Where(r => r.Status.ToString().Equals(status)).ToList();
             }
 
             Console.Clear();
@@ -120,8 +120,8 @@ namespace Part1
             }
 
             Console.Clear();
-            writer.WriteFileInformation(sourceFile);
-            writer.WriteFileInformation(targetFile);
+            _writer.WriteFileInformation(_sourceFile);
+            _writer.WriteFileInformation(_targetFile);
             
             if (status != "" || id != "")
             {

@@ -9,16 +9,16 @@ namespace Part1
 {
     public class NavigationManager : INavigationManager
     {
-        private IMenuManager menuManager;
+        private IMenuManager _menuManager;
 
         public NavigationManager(IMenuManager menuManager)
         {
-            this.menuManager = menuManager;
+            _menuManager = menuManager;
         }
 
         public void StartNavigation()
         {
-            menuManager.MainMenu();
+            _menuManager.MainMenu();
         }
     }
 }
