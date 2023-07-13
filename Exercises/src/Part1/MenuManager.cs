@@ -68,7 +68,7 @@ namespace Part1
         }
 
         /// <summary>
-        /// Console meny where a comparison result table is displayed with filtering option
+        /// Console menu where a comparison result table is displayed with filtering option
         /// </summary>
         private void FullResultMenu()
         {
