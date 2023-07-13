@@ -78,7 +78,6 @@ namespace Part1
             writer.WriteFileInformation(targetFile);
             ComparisonResultInformationWriter.WriteResultInformation(result.results);
 
-            Console.WriteLine();
             Console.WriteLine("[1] Filter by ID or status");
             Console.WriteLine("[2] Return");
             Console.WriteLine();
@@ -130,11 +129,13 @@ namespace Part1
             }
             if (status != "")
             {
-                Console.Write($"Status - {status} ");
-
                 if (id != "")
                 {
-                    Console.Write(", ");
+                    Console.Write($"Status - {status}, ");
+                }
+                else
+                {
+                    Console.Write($"Status - {status} \n");
                 }
             }
             if (id != "")

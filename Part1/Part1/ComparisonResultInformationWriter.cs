@@ -8,7 +8,7 @@ namespace Part1
 {
     public static class ComparisonResultInformationWriter
     {
-        private const int tableWidth = 160;
+        private const int MinimumTableWidth = 100;
 
         /// <summary>
         /// Writes a table to the console with comparison results
@@ -16,8 +16,6 @@ namespace Part1
         /// <param name="results">A list of comparison result entries</param>
         public static void WriteResultInformation(List<ComparisonResultEntry> results)
         {
-            int columnWidth = tableWidth / 4;
-
             if (results.Count == 0)
             {
                 Console.WriteLine("There are no results");
@@ -25,11 +23,33 @@ namespace Part1
                 return;
             }
 
-            Console.WriteLine(new string('-', tableWidth));
-            string line = "| ID".PadRight(columnWidth) + "| Source Value".PadRight(columnWidth)
-                + "| Target Value".PadRight(columnWidth) + "| Status".PadRight(columnWidth) + "|";
+            int widestColumn = 0;
+            string longestSourceString = results.OrderByDescending(r => r.SourceValue.Length).First().SourceValue;
+            string longestTargetString = results.OrderByDescending(r => r.TargetValue.Length).First().TargetValue;
+
+            if (longestSourceString.Length > longestTargetString.Length)
+                widestColumn = longestSourceString.Length;
+            else if (longestTargetString.Length > longestSourceString.Length)
+                widestColumn = longestTargetString.Length;
+            else
+                widestColumn = longestSourceString.Length;
+
+            widestColumn += 2;
+
+            int columns = typeof(ComparisonResultEntry).GetProperties().Length;
+            int currentTableWidth = widestColumn * columns;
+
+            if (currentTableWidth < MinimumTableWidth)
+            {
+                currentTableWidth = MinimumTableWidth;
+                widestColumn = MinimumTableWidth / columns;
+            }
+
+            Console.WriteLine(new string('-', currentTableWidth));
+            string line = "| ID".PadRight(widestColumn) + "| Source Value".PadRight(widestColumn)
+                + "| Target Value".PadRight(widestColumn) + "| Status".PadRight(widestColumn) + "|";
             Console.WriteLine(line);
-            Console.WriteLine(new string('-', tableWidth));
+            Console.WriteLine(new string('-', currentTableWidth));
 
             foreach (var row in results)
             {
@@ -44,11 +64,11 @@ namespace Part1
                 else
                     Console.BackgroundColor = ConsoleColor.Green;
 
-                line = $"| {row.ID}".PadRight(columnWidth) + $"| {row.SourceValue}".PadRight(columnWidth)
-                    + $"| {row.TargetValue}".PadRight(columnWidth) + $"| {row.Status}".PadRight(columnWidth) + "|";
+                line = $"| {row.ID}".PadRight(widestColumn) + $"| {row.SourceValue}".PadRight(widestColumn)
+                    + $"| {row.TargetValue}".PadRight(widestColumn) + $"| {row.Status}".PadRight(widestColumn) + "|";
 
                 Console.WriteLine(line);
-                Console.Write(new string('-', tableWidth));
+                Console.Write(new string('-', currentTableWidth));
 
                 Console.ResetColor();
 
