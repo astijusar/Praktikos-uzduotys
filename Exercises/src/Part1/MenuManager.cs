@@ -68,7 +68,7 @@ namespace Part1
         }
 
         /// <summary>
-        /// Console menu where a comparison result table is displayed with filtering option
+        /// Console menu where a comparison result table and summary is displayed with filtering option
         /// </summary>
         private void FullResultMenu()
         {
@@ -76,6 +76,7 @@ namespace Part1
 
             _writer.WriteFileInformation(_sourceFile);
             _writer.WriteFileInformation(_targetFile);
+            ComparisonResultInformationWriter.WriteResultSummaryInformation(_result);
             ComparisonResultInformationWriter.WriteResultInformation(_result.results);
 
             Console.WriteLine("[1] Filter by ID or status");
