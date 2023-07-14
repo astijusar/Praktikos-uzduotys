@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Part2.Filters.ActionFilters;
 using Part2.Services;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace Part2
             });
 
             services.AddSingleton<IFileValidationService, FileValidationService>();
+            services.AddScoped<ValidateFilesAttribute>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

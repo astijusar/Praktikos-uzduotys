@@ -30,7 +30,7 @@ namespace Part2.Services
         public bool IsValidFileExtension(IFormFile file)
         {
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
-            var permittedExtensions = _configuration.GetSection("FileUpload:PermitedExtensions").Get<string[]>();
+            var permittedExtensions = _configuration.GetSection("FileUploadSettings:PermitedExtensions").Get<string[]>();
 
             if (permittedExtensions == null)
             {
