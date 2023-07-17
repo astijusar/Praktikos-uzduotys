@@ -5,7 +5,7 @@ using Part2.Filters.ActionFilters;
 using Part2.Models;
 using Part2.Models.DTOs;
 using Part2.Models.RequestFeatures;
-using Part2.Services;
+using Part2.Services.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -28,7 +28,18 @@ namespace Part2.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Compares ID and value pairs of two files
+        /// </summary>
+        /// <param name="sourceFile">The source file to compare</param>
+        /// <param name="targetFile">The target file to compare against</param>
+        /// <param name="parameters">Additional parameters for result filtering</param>
+        /// <returns>Returns the comparison result</returns>
+        /// <response code="200">Returns the results of comparison</response>
+        /// <response code="422">Returns a model state error</response>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidateFilesAttribute))]
         public IActionResult CompareFiles([Required]IFormFile sourceFile, [Required]IFormFile targetFile,
             [FromQuery]FileComparisonParameters parameters)

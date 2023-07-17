@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Part2.Models;
+using Part2.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,12 @@ namespace Part2.Services
 {
     public class FileReader : IFileReader
     {
+        /// <summary>
+        /// Read a file information from IFormFile
+        /// </summary>
+        /// <param name="file">IFormFile that needs to be read</param>
+        /// <returns>A FileModel with its information</returns>
+        /// <exception cref="ArgumentException">The file can't be null</exception>
         public FileModel ReadFile(IFormFile file)
         {
             if (file == null || file.Length == 0)

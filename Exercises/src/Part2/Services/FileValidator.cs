@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Part2.Services.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,11 @@ namespace Part2.Services
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Checks if the file has a valid size
+        /// </summary>
+        /// <param name="file">IFormFile to check</param>
+        /// <returns>A boolean value</returns>
         public bool IsValidFileSize(IFormFile file)
         {
             var fileSizeLimit = _configuration["FileUploadSettings:SizeLimit"];
@@ -27,6 +33,11 @@ namespace Part2.Services
             return file.Length < int.Parse(fileSizeLimit);
         }
 
+        /// <summary>
+        /// Checks if the file extension is valid and allowed
+        /// </summary>
+        /// <param name="file">IFormFile to check</param>
+        /// <returns>A boolean value</returns>
         public bool IsValidFileExtension(IFormFile file)
         {
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();

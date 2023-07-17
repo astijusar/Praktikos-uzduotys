@@ -1,5 +1,6 @@
 ﻿using Part2.Models;
 using Part2.Models.Enums;
+using Part2.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +8,12 @@ namespace Part2.Services
 {
     public class FileComparer : IFileComparer
     {
+        /// <summary>
+        /// Compares ID and value pairs of two files
+        /// </summary>
+        /// <param name="sourceFile">The source file to compare</param>
+        /// <param name="targetFile">The target file to compare against</param>
+        /// <returns>Returns the comparison result list</returns>
         public List<ComparisonResult> CompareFiles(FileModel sourceFile, FileModel targetFile)
         {
             var comparisonResult = new List<ComparisonResult>();

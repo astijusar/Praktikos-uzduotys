@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Part2.Services;
+using Part2.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,6 +23,10 @@ namespace Part2.Filters.ActionFilters
         {
         }
 
+        /// <summary>
+        /// Validate files before action executing
+        /// </summary>
+        /// <param name="context">Provides the context</param>
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var files = context.ActionArguments

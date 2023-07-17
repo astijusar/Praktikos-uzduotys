@@ -9,10 +9,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Part2.Filters.ActionFilters;
 using Part2.Services;
+using Part2.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -38,6 +40,10 @@ namespace Part2
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CFG File Compare", Version = "v1" });
+                
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             services.AddAutoMapper(typeof(Startup));
