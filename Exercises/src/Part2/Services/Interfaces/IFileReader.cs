@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Part2.Models;
 
-namespace Part2.Services
+namespace Part2.Services.Interfaces
 {
     public interface IFileReader
     {

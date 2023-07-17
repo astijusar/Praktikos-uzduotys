@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Part2.Services
+namespace Part2.Services.Interfaces
 {
     public interface IFileValidator
     {
