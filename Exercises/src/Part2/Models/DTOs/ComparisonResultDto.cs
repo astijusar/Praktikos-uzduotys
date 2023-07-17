@@ -1,8 +1,9 @@
 ﻿using Part2.Models.Enums;
+using System.Collections.Generic;
 
-namespace Part2.Models
+namespace Part2.Models.DTOs
 {
-    public class ComparisonResultEntry
+    public class ComparisonResultDto
     {
         public string ID { get; set; }
         public string SourceValue { get; set; }

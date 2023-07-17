@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Part2
@@ -30,14 +31,20 @@ namespace Part2
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CFG File Compare", Version = "v1" });
             });
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddSingleton<IFileValidator, FileValidator>();
             services.AddSingleton<IFileReader, FileReader>();
+            services.AddSingleton<IFileComparer, FileComparer>();
             services.AddScoped<ValidateFilesAttribute>();
         }
 

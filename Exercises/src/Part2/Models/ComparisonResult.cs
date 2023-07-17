@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Part2.Models.Enums;
 
 namespace Part2.Models
 {
     public class ComparisonResult
     {
-        public List<ComparisonResultEntry> resultEntries { get; set; } = new List<ComparisonResultEntry>();
-        public int unchanged { get; set; } = 0;
-        public int modified { get; set; } = 0;
-        public int removed { get; set; } = 0;
-        public int added { get; set; } = 0;
+        public string ID { get; set; }
+        public string SourceValue { get; set; }
+        public string TargetValue { get; set; }
+        public ResultStatusEnum Status { get; set; }
     }
 }
