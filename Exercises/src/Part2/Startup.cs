@@ -36,7 +36,8 @@ namespace Part2
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CFG File Compare", Version = "v1" });
             });
 
-            services.AddSingleton<IFileValidationService, FileValidationService>();
+            services.AddSingleton<IFileValidator, FileValidator>();
+            services.AddSingleton<IFileReader, FileReader>();
             services.AddScoped<ValidateFilesAttribute>();
         }
 

@@ -9,9 +9,9 @@ namespace Part2.Filters.ActionFilters
 {
     public class ValidateFilesAttribute : IActionFilter
     {
-        private readonly IFileValidationService _fileValidationService;
+        private readonly IFileValidator _fileValidationService;
 
-        public ValidateFilesAttribute(IFileValidationService fileValidationService)
+        public ValidateFilesAttribute(IFileValidator fileValidationService)
         {
             _fileValidationService = fileValidationService;
         }
@@ -41,7 +41,7 @@ namespace Part2.Filters.ActionFilters
 
             if (!context.ModelState.IsValid)
             {
-                context.Result = new BadRequestObjectResult(context.ModelState);
+                context.Result = new UnprocessableEntityObjectResult(context.ModelState);
             }
         }
     }

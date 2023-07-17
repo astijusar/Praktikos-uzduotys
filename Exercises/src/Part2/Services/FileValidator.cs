@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace Part2.Services
 {
-    public class FileValidationService : IFileValidationService
+    public class FileValidator : IFileValidator
     {
         private readonly IConfiguration _configuration;
 
-        public FileValidationService(IConfiguration configuration)
+        public FileValidator(IConfiguration configuration)
         {
             _configuration = configuration;
         }
