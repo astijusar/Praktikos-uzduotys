@@ -7,6 +7,7 @@ using Part2.Models.DTOs;
 using Part2.Models.RequestFeatures;
 using Part2.Services;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,23 +30,9 @@ namespace Part2.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(ValidateFilesAttribute))]
-        public IActionResult CompareFiles(IFormFile sourceFile, IFormFile targetFile, [FromQuery] FileComparisonParameters parameters)
+        public IActionResult CompareFiles([Required]IFormFile sourceFile, [Required]IFormFile targetFile,
+            [FromQuery]FileComparisonParameters parameters)
         {
-            if (sourceFile == null)
-            {
-                ModelState.AddModelError("sourceFile", "Source file should be not null");
-            }
-
-            if (targetFile == null)
-            {
-                ModelState.AddModelError("targetFile", "Target file should be not null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return UnprocessableEntity(ModelState);
-            }
-
             var sourceFileData = _fileReader.ReadFile(sourceFile);
             var targetFileData = _fileReader.ReadFile(targetFile);
 
