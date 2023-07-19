@@ -15,25 +15,19 @@ namespace Part2.Tests
 {
     public class FileValidatorTests
     {
-        private readonly Mock<IConfiguration> _configuration;
-        private readonly IFileValidator _fileValidator;
+        private readonly Mock<IConfiguration> _configurationMock;
         private readonly Mock<IFormFile> _fileMock;
+        private readonly IFileValidator _fileValidator;
 
         public FileValidatorTests()
         {
-            _configuration = new Mock<IConfiguration>();
-            _configuration.Setup(c => c["FileUploadSettings:SizeLimit"]).Returns("1024");
-
-            var fileExtensionSectionMock = new Mock<IConfigurationSection>();
-            fileExtensionSectionMock
-               .Setup(x => x.Value)
-               .Returns(".cfg");
-
-            _configuration.Setup(c => c.GetSection("FileUploadSettings:PermitedExtensions")).Returns(fileExtensionSectionMock.Object);
+            _configurationMock = new Mock<IConfiguration>();
+            _configurationMock.Setup(c => c["FileUploadSettings:SizeLimit"]).Returns("1024");
+            _configurationMock.Setup(c => c["FileUploadSettings:PermitedExtensions"]).Returns(".cfg");
 
             _fileMock = new Mock<IFormFile>();
 
-            _fileValidator = new FileValidator(_configuration.Object);
+            _fileValidator = new FileValidator(_configurationMock.Object);
         }
 
         [Fact]
@@ -63,6 +57,20 @@ namespace Part2.Tests
         }
 
         [Fact]
+        public void IsValidFileSize_NotConfigured_ReturnsTrue()
+        {
+            // Arrange
+            _fileMock.Setup(f => f.Length).Returns(2000);
+            _configurationMock.Setup(c => c["FileUploadSettings:SizeLimit"]).Returns((string)null);
+
+            // Act
+            var result = _fileValidator.IsValidFileSize(_fileMock.Object);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Fact]
         public void IsValidExtension_ValidExtension_ReturnsTrue()
         {
             // Arrange
@@ -86,6 +94,20 @@ namespace Part2.Tests
 
             // Assert
             result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void IsValidExtension_NotConfigured_ReturnsTrue()
+        {
+            // Arrange
+            _fileMock.Setup(f => f.FileName).Returns("test.csv");
+            _configurationMock.Setup(c => c["FileUploadSettings:PermitedExtensions"]).Returns((string)null);
+
+            // Act
+            var result = _fileValidator.IsValidFileExtension(_fileMock.Object);
+
+            // Assert
+            result.Should().BeTrue();
         }
     }
 }
