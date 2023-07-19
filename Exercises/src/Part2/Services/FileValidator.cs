@@ -17,10 +17,10 @@ namespace Part2.Services
         }
 
         /// <summary>
-        /// Checks if the file has a valid size
+        /// Checks if the file has a valid size.
         /// </summary>
         /// <param name="file">IFormFile to check</param>
-        /// <returns>A boolean value</returns>
+        /// <returns>A boolean value. If maximum size is not configured then returns true</returns>
         public bool IsValidFileSize(IFormFile file)
         {
             var fileSizeLimit = _configuration["FileUploadSettings:SizeLimit"];
@@ -37,11 +37,11 @@ namespace Part2.Services
         /// Checks if the file extension is valid and allowed
         /// </summary>
         /// <param name="file">IFormFile to check</param>
-        /// <returns>A boolean value</returns>
+        /// <returns>A boolean value. If valid extensions are not configured then returns true</returns>
         public bool IsValidFileExtension(IFormFile file)
         {
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
-            var permittedExtensions = _configuration.GetSection("FileUploadSettings:PermitedExtensions").Get<string[]>();
+            var permittedExtensions = _configuration["FileUploadSettings:PermitedExtensions"]?.Split(",");
 
             if (permittedExtensions == null)
             {
