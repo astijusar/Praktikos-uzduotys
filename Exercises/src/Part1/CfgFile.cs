@@ -11,13 +11,13 @@ namespace Part1
     public class CfgFile : ICfgFile
     {
         public string Name { get; set; }
-        public List<string> Information { get; set; }
-        public Hashtable Data { get; set; }
+        public List<string> Metadata { get; set; }
+        public Hashtable IdValuePairs { get; set; }
 
         public CfgFile()
         {
-            Information = new List<string>();
-            Data = new Hashtable();
+            Metadata = new List<string>();
+            IdValuePairs = new Hashtable();
         }
     }
 }

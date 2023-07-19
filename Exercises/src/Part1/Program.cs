@@ -23,8 +23,8 @@ namespace Part1
 
             IFileReader cfgFileReader = new CfgFileReader();
 
-            ICfgFile sourceFile = (ICfgFile)cfgFileReader.ReadFile(sourceFilePath);
-            ICfgFile targetFile = (ICfgFile)cfgFileReader.ReadFile(targetFilePath);
+            IFile sourceFile = cfgFileReader.ReadFile(sourceFilePath);
+            IFile targetFile = cfgFileReader.ReadFile(targetFilePath);
 
             IFileInformationWriter cfgConsoleWriter = new CfgFileInformationWriter();
             IFileComparer comparer = new CfgFileComparer();

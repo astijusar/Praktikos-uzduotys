@@ -8,10 +8,10 @@ namespace Part1
 {
     public class ComparisonResult
     {
-        public List<ComparisonResultEntry> results { get; set; } = new List<ComparisonResultEntry>();
-        public int unchanged { get; set; } = 0;
-        public int modified { get; set; } = 0;
-        public int removed { get; set; } = 0;
-        public int added { get; set; } = 0;
+        public List<ComparisonResultEntry> ResultEntries { get; set; } = new List<ComparisonResultEntry>();
+        public int Unchanged { get; set; } = 0;
+        public int Modified { get; set; } = 0;
+        public int Removed { get; set; } = 0;
+        public int Added { get; set; } = 0;
     }
 }

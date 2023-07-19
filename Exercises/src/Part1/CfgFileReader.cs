@@ -34,22 +34,24 @@ namespace Part1
                         foreach (var pair in pairs)
                         {
                             var keyValue = pair.Split(":");
+                            var id = keyValue[0];
+                            var value = keyValue.Length > 1 ? keyValue[1] : null;
 
-                            if (keyValue[0] == "") continue;
+                            if (id == "") continue;
 
-                            if (!int.TryParse(keyValue[0], out _))
+                            if (!int.TryParse(id, out _))
                             {
-                                file.Information.Add(pair);
+                                file.Metadata.Add(pair);
                             }
                             else
                             {
                                 if (keyValue.Length == 1)
                                 {
-                                    file.Data.Add(keyValue[0], null);
+                                    file.IdValuePairs.Add(id, value);
                                 }
                                 else
                                 {
-                                    file.Data.Add(keyValue[0], keyValue[1]);
+                                    file.IdValuePairs.Add(id, value);
                                 }
                             }
                         }
@@ -68,7 +70,7 @@ namespace Part1
             }
             catch (UnauthorizedAccessException)
             {
-                Console.Write($"The access to the file is unauthorized");
+                Console.Write($"The access to the file is unauthorized: {path}");
                 Environment.Exit(1);
             }
 

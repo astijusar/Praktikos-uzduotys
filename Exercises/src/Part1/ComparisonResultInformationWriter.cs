@@ -91,7 +91,7 @@ namespace Part1
         /// <param name="result">A comparison result object</param>
         public static void WriteResultSummaryInformation(ComparisonResult result)
         {
-            Console.WriteLine($"U:{result.unchanged} M:{result.modified} R:{result.removed} A:{result.added}");
+            Console.WriteLine($"U:{result.Unchanged} M:{result.Modified} R:{result.Removed} A:{result.Added}");
             Console.WriteLine();
         }
     }

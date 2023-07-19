@@ -77,7 +77,7 @@ namespace Part1
             _writer.WriteFileInformation(_sourceFile);
             _writer.WriteFileInformation(_targetFile);
             ComparisonResultInformationWriter.WriteResultSummaryInformation(_result);
-            ComparisonResultInformationWriter.WriteResultInformation(_result.results);
+            ComparisonResultInformationWriter.WriteResultInformation(_result.ResultEntries);
 
             Console.WriteLine("[1] Filter by ID or status");
             Console.WriteLine("[2] Return");
@@ -105,10 +105,10 @@ namespace Part1
             Console.Clear();
             var status = UserInputHandler.GetLineInput("Enter status to filter by (leave empty to not filter):");
 
-            var filteredByStatus = _result.results;
+            var filteredByStatus = _result.ResultEntries;
             if (!string.IsNullOrEmpty(status))
             {
-                filteredByStatus = _result.results.Where(r => r.Status.ToString().Equals(status)).ToList();
+                filteredByStatus = _result.ResultEntries.Where(r => r.Status.ToString().Equals(status)).ToList();
             }
 
             Console.Clear();

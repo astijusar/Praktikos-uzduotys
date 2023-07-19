@@ -28,66 +28,56 @@ namespace Part1
 
             ComparisonResult result = new ComparisonResult();
 
-            foreach (string key in sourceCfgFile.Data.Keys)
+            foreach (string id in sourceCfgFile.IdValuePairs.Keys)
             {
-                if (targetCfgFile.Data.ContainsKey(key))
+                if (targetCfgFile.IdValuePairs.ContainsKey(id))
                 {
-                    if (sourceCfgFile.Data[key].Equals(targetCfgFile.Data[key]))
-                    {
-                        result.results.Add(new ComparisonResultEntry
-                        {
-                            ID = key,
-                            SourceValue = sourceCfgFile.Data[key].ToString(),
-                            TargetValue = targetCfgFile.Data[key].ToString(),
-                            Status = ResultStatusEnum.unchanged
-                        });
+                    var sourceValue = sourceCfgFile.IdValuePairs[id].ToString();
+                    var targetValue = targetCfgFile.IdValuePairs[id].ToString();
 
-                        result.unchanged++;
+                    if (sourceValue.Equals(targetValue))
+                    {
+                        result.ResultEntries.Add(CreateComparisonResultEntry(id, sourceValue, targetValue, ResultStatusEnum.unchanged));
+                        result.Unchanged++;
                     }
                     else
                     {
-                        result.results.Add(new ComparisonResultEntry
-                        {
-                            ID = key,
-                            SourceValue = sourceCfgFile.Data[key].ToString(),
-                            TargetValue = targetCfgFile.Data[key].ToString(),
-                            Status = ResultStatusEnum.modified
-                        });
-
-                        result.modified++;
+                        result.ResultEntries.Add(CreateComparisonResultEntry(id, sourceValue, targetValue, ResultStatusEnum.modified));
+                        result.Modified++;
                     }
                 }
                 else
                 {
-                    result.results.Add(new ComparisonResultEntry
-                    {
-                        ID = key,
-                        SourceValue = sourceCfgFile.Data[key].ToString(),
-                        TargetValue = "",
-                        Status = ResultStatusEnum.removed
-                    });
+                    var sourceValue = sourceCfgFile.IdValuePairs[id].ToString();
 
-                    result.removed++;
+                    result.ResultEntries.Add(CreateComparisonResultEntry(id, sourceValue, "", ResultStatusEnum.removed));
+                    result.Removed++;
                 }
             }
 
-            foreach (string key in targetCfgFile.Data.Keys)
+            foreach (string id in targetCfgFile.IdValuePairs.Keys)
             {
-                if (!sourceCfgFile.Data.ContainsKey(key))
+                if (!sourceCfgFile.IdValuePairs.ContainsKey(id))
                 {
-                    result.results.Add(new ComparisonResultEntry
-                    {
-                        ID = key,
-                        SourceValue = "",
-                        TargetValue = targetCfgFile.Data[key].ToString(),
-                        Status = ResultStatusEnum.added
-                    });
+                    var targetValue = targetCfgFile.IdValuePairs[id].ToString();
 
-                    result.added++;
+                    result.ResultEntries.Add(CreateComparisonResultEntry(id, "", targetValue, ResultStatusEnum.removed));
+                    result.Added++;
                 }
             }
 
             return result;
+        }
+
+        private ComparisonResultEntry CreateComparisonResultEntry(string id, string sourceValue, string targetValue, ResultStatusEnum status)
+        {
+            return new ComparisonResultEntry 
+            {
+                ID = id,
+                SourceValue = sourceValue,
+                TargetValue = targetValue,
+                Status = status
+            };
         }
     }
 }

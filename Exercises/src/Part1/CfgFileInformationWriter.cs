@@ -31,7 +31,7 @@ namespace Part1
 
             Console.WriteLine(new string('-', tableWidth));
 
-            foreach (var ln in cfgFile.Information)
+            foreach (var ln in cfgFile.Metadata)
             {
                 string line = $"| {ln}".PadRight(tableWidth - 1) + "|";
                 Console.WriteLine(line);

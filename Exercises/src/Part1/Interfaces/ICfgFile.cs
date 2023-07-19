@@ -9,7 +9,7 @@ namespace Part1.Interfaces
 {
     public interface ICfgFile : IFile
     {
-        public List<string> Information { get; set; }
-        public Hashtable Data { get; set; }
+        public List<string> Metadata { get; set; }
+        public Hashtable IdValuePairs { get; set; }
     }
 }
