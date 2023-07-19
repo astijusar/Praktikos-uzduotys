@@ -8,7 +8,7 @@ using System.IO.Compression;
 
 namespace Part2.Services
 {
-    public class FileReader : IFileReader
+    public class FileReaderService : IFileReaderService
     {
         /// <summary>
         /// Read a file information from IFormFile

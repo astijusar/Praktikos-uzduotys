@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace Part2.Services
 {
-    public class FileValidator : IFileValidator
+    public class FileValidatorService : IFileValidatorService
     {
         private readonly IConfiguration _configuration;
 
-        public FileValidator(IConfiguration configuration)
+        public FileValidatorService(IConfiguration configuration)
         {
             _configuration = configuration;
         }

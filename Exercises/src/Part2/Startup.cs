@@ -48,9 +48,9 @@ namespace Part2
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddSingleton<IFileValidator, FileValidator>();
-            services.AddSingleton<IFileReader, FileReader>();
-            services.AddSingleton<IFileComparer, FileComparer>();
+            services.AddSingleton<IFileValidatorService, FileValidatorService>();
+            services.AddSingleton<IFileReaderService, FileReaderService>();
+            services.AddSingleton<IFileComparerService, FileComparerService>();
             services.AddScoped<ValidateFilesAttribute>();
         }
 

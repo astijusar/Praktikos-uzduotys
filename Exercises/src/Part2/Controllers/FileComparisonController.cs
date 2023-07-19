@@ -17,11 +17,11 @@ namespace Part2.Controllers
     [ApiController]
     public class FileComparisonController : ControllerBase
     {
-        private readonly IFileReader _fileReader;
-        private readonly IFileComparer _fileComparer;
+        private readonly IFileReaderService _fileReader;
+        private readonly IFileComparerService _fileComparer;
         private readonly IMapper _mapper;
 
-        public FileComparisonController(IFileReader fileReader, IFileComparer fileComparer, IMapper mapper)
+        public FileComparisonController(IFileReaderService fileReader, IFileComparerService fileComparer, IMapper mapper)
         {
             _fileReader = fileReader;
             _fileComparer = fileComparer;

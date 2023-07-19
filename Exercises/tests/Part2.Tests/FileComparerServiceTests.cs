@@ -12,13 +12,13 @@ using Xunit;
 
 namespace Part2.Tests
 {
-    public class FileComparerTests
+    public class FileComparerServiceTests
     {
-        private readonly IFileComparer _fileComparer;
+        private readonly IFileComparerService _fileComparer;
 
-        public FileComparerTests()
+        public FileComparerServiceTests()
         {
-            _fileComparer = new FileComparer();
+            _fileComparer = new FileComparerService();
         }
 
         [Fact]

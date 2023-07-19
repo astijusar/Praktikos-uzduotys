@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Part2.Services
 {
-    public class FileComparer : IFileComparer
+    public class FileComparerService : IFileComparerService
     {
         /// <summary>
         /// Compares ID and value pairs of two files

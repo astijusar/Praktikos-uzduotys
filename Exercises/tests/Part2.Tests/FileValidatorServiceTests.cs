@@ -13,13 +13,13 @@ using Xunit;
 
 namespace Part2.Tests
 {
-    public class FileValidatorTests
+    public class FileValidatorServiceTests
     {
         private readonly Mock<IConfiguration> _configurationMock;
         private readonly Mock<IFormFile> _fileMock;
-        private readonly IFileValidator _fileValidator;
+        private readonly IFileValidatorService _fileValidator;
 
-        public FileValidatorTests()
+        public FileValidatorServiceTests()
         {
             _configurationMock = new Mock<IConfiguration>();
             _configurationMock.Setup(c => c["FileUploadSettings:SizeLimit"]).Returns("1024");
@@ -27,7 +27,7 @@ namespace Part2.Tests
 
             _fileMock = new Mock<IFormFile>();
 
-            _fileValidator = new FileValidator(_configurationMock.Object);
+            _fileValidator = new FileValidatorService(_configurationMock.Object);
         }
 
         [Fact]

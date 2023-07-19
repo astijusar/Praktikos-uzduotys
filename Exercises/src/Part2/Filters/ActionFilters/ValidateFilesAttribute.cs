@@ -10,10 +10,10 @@ namespace Part2.Filters.ActionFilters
 {
     public class ValidateFilesAttribute : IActionFilter
     {
-        private readonly IFileValidator _fileValidationService;
+        private readonly IFileValidatorService _fileValidationService;
         private readonly ILogger<ValidateFilesAttribute> _logger;
 
-        public ValidateFilesAttribute(IFileValidator fileValidationService, ILogger<ValidateFilesAttribute> logger)
+        public ValidateFilesAttribute(IFileValidatorService fileValidationService, ILogger<ValidateFilesAttribute> logger)
         {
             _fileValidationService = fileValidationService;
             _logger = logger;

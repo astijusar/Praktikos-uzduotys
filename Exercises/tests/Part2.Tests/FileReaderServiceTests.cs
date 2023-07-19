@@ -11,13 +11,13 @@ using Xunit;
 
 namespace Part2.Tests
 {
-    public class FileReaderTests
+    public class FileReaderServiceTests
     {
-        private readonly IFileReader _fileReader;
+        private readonly IFileReaderService _fileReader;
 
-        public FileReaderTests()
+        public FileReaderServiceTests()
         {
-            _fileReader = new FileReader();
+            _fileReader = new FileReaderService();
         }
 
         [Fact]

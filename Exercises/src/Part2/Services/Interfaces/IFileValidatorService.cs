@@ -2,7 +2,7 @@
 
 namespace Part2.Services.Interfaces
 {
-    public interface IFileValidator
+    public interface IFileValidatorService
     {
         public bool IsValidFileSize(IFormFile file);
         public bool IsValidFileExtension(IFormFile file);
