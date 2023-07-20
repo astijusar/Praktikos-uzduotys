@@ -51,6 +51,7 @@ namespace Part2
             services.AddScoped<IFileValidatorService, FileValidatorService>();
             services.AddScoped<IFileReaderService, FileReaderService>();
             services.AddScoped<IFileComparerService, FileComparerService>();
+            services.AddScoped<IResultFilterService, ResultFilterService>();
             services.AddScoped<ValidateFilesAttribute>();
         }
 

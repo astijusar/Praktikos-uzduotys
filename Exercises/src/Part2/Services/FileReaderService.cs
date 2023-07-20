@@ -71,11 +71,11 @@ namespace Part2.Services
 
                 if (!int.TryParse(id, out _))
                 {
-                    fileModel.Metadata.Add(pair);
+                    fileModel.TextIdValuePairs.Add(new KeyValuePair<string, string>(id, value));
                 }
                 else
                 {
-                    fileModel.IdValuePairs.Add(new KeyValuePair<string, string>(id, value));
+                    fileModel.NumberIdValuePairs.Add(new KeyValuePair<string, string>(id, value));
                 }
             }
 

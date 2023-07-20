@@ -19,12 +19,15 @@ namespace Part2.Controllers
     {
         private readonly IFileReaderService _fileReader;
         private readonly IFileComparerService _fileComparer;
+        private readonly IResultFilterService _resultFilter;
         private readonly IMapper _mapper;
 
-        public FileComparisonController(IFileReaderService fileReader, IFileComparerService fileComparer, IMapper mapper)
+        public FileComparisonController(IFileReaderService fileReader, IFileComparerService fileComparer,
+            IResultFilterService resultFilter, IMapper mapper)
         {
             _fileReader = fileReader;
             _fileComparer = fileComparer;
+            _resultFilter = resultFilter;
             _mapper = mapper;
         }
 
@@ -33,7 +36,7 @@ namespace Part2.Controllers
         /// </summary>
         /// <param name="sourceFile">The source file to compare</param>
         /// <param name="targetFile">The target file to compare against</param>
-        /// <param name="parameters">Additional parameters for result filtering</param>
+        /// <param name="param">Additional parameters for result filtering</param>
         /// <returns>Returns the comparison result</returns>
         /// <response code="200">Returns the results of comparison</response>
         /// <response code="422">Returns a model state error</response>
@@ -42,29 +45,29 @@ namespace Part2.Controllers
         [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidateFilesAttribute))]
         public async Task<IActionResult> CompareFiles([Required]IFormFile sourceFile, [Required]IFormFile targetFile,
-            [FromQuery]FileComparisonParameters parameters)
+            [FromQuery]ComparisonResultParameters param)
         {
             var sourceFileData = await _fileReader.ReadFile(sourceFile);
             var targetFileData = await _fileReader.ReadFile(targetFile);
 
-            var comparisonResults = await _fileComparer.CompareFiles(sourceFileData, targetFileData);
+            var textParamResults = await _fileComparer
+                .CompareFiles(sourceFileData.TextIdValuePairs, targetFileData.TextIdValuePairs);
 
-            var filteredResults = comparisonResults;
-            if (parameters.ID != null)
-            {
-                filteredResults = filteredResults.Where(r => r.ID.StartsWith(parameters.ID)).ToList();
-            }
+            var numberParamResults = await _fileComparer
+                .CompareFiles(sourceFileData.NumberIdValuePairs, targetFileData.NumberIdValuePairs);
 
-            if (parameters.ResultStatus != null)
-            {
-                filteredResults = filteredResults.Where(r => r.Status.Equals(parameters.ResultStatus)).ToList();
-            }
+            var textFilteredParamResults = _resultFilter
+                .filterComparisonResults(textParamResults, param.TextParamResultStatus, param.TextParamID);
+
+            var NumberFilteredParamResults = _resultFilter
+                .filterComparisonResults(numberParamResults, param.NumberParamResultStatus, param.NumberParamID);
 
             var result = new ComparisonResultWithMetadataDto
             {
                 SourceFile = _mapper.Map<FileModelDto>(sourceFileData),
                 TargetFile = _mapper.Map<FileModelDto>(targetFileData),
-                ComparisonResult = _mapper.Map<List<ComparisonResultDto>>(filteredResults)
+                TextParameterComparisonResult = _mapper.Map<List<ComparisonResultDto>>(textFilteredParamResults),
+                NumberParameterComparisonResult = _mapper.Map<List<ComparisonResultDto>>(NumberFilteredParamResults)
             };
 
             return Ok(result);

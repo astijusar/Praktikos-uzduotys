@@ -15,30 +15,31 @@ namespace Part2.Services
         /// <param name="sourceFile">The source file to compare</param>
         /// <param name="targetFile">The target file to compare against</param>
         /// <returns>Returns the comparison result list</returns>
-        public Task<List<ComparisonResult>> CompareFiles(FileModel sourceFile, FileModel targetFile)
+        public Task<List<ComparisonResult>> CompareFiles(List<KeyValuePair<string, string>> sourceFile,
+            List<KeyValuePair<string, string>> targetFile)
         {
             var comparisonResult = new List<ComparisonResult>();
 
             // Unchanged pairs
-            var unchangedPairs = sourceFile.IdValuePairs
-                .Join(targetFile.IdValuePairs, s => s.Key, t => t.Key, (s, t) => new { Source = s, Target = t })
+            var unchangedPairs = sourceFile
+                .Join(targetFile, s => s.Key, t => t.Key, (s, t) => new { Source = s, Target = t })
                 .Where(pair => pair.Source.Value == pair.Target.Value)
                 .ToList();
 
             // Modified pairs
-            var modifiedPairs = sourceFile.IdValuePairs
-                .Join(targetFile.IdValuePairs, s => s.Key, t => t.Key, (s, t) => new { Source = s, Target = t })
+            var modifiedPairs = sourceFile
+                .Join(targetFile, s => s.Key, t => t.Key, (s, t) => new { Source = s, Target = t })
                 .Where(pair => pair.Source.Value != pair.Target.Value)
                 .ToList();
 
             // Removed pairs
-            var removedPairs = sourceFile.IdValuePairs
-                .Where(pair => !targetFile.IdValuePairs.Any(t => t.Key == pair.Key))
+            var removedPairs = sourceFile
+                .Where(pair => !targetFile.Any(t => t.Key == pair.Key))
                 .ToList();
 
             // Added pairs
-            var addedPairs = targetFile.IdValuePairs
-                .Where(pair => !sourceFile.IdValuePairs.Any(s => s.Key == pair.Key))
+            var addedPairs = targetFile
+                .Where(pair => !sourceFile.Any(s => s.Key == pair.Key))
                 .ToList();
 
 
