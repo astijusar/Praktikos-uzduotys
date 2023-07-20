@@ -1,10 +1,11 @@
 ﻿using Part2.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Part2.Services.Interfaces
 {
     public interface IFileComparerService
     {
-        public List<ComparisonResult> CompareFiles(FileModel sourceFile, FileModel targetFile);
+        public Task<List<ComparisonResult>> CompareFiles(FileModel sourceFile, FileModel targetFile);
     }
 }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Part2.Tests
@@ -21,7 +22,7 @@ namespace Part2.Tests
         }
 
         [Fact]
-        public void ReadFile_ValidGzipFile_ReturnsFileModelWithDecompressedContent()
+        public async void ReadFile_ValidGzipFile_ReturnsFileModelWithDecompressedContent()
         {
             // Arrange
             var fileName = "test.txt";
@@ -29,7 +30,7 @@ namespace Part2.Tests
             var formFile = CreateFormFile(gzipBytes, fileName);
 
             // Act
-            var result = _fileReader.ReadFile(formFile);
+            var result = await _fileReader.ReadFile(formFile);
 
             // Assert
             result.Should().NotBeNull();
@@ -45,7 +46,7 @@ namespace Part2.Tests
         }
 
         [Fact]
-        public void ReadFile_ValidFile_ReturnsFileModel()
+        public async void ReadFile_ValidFile_ReturnsFileModel()
         {
             // Arrange
             var fileName = "test.cfg";
@@ -55,7 +56,7 @@ namespace Part2.Tests
             var formFile = CreateFormFile(fileBytes, fileName);
 
             // Act
-            var result = _fileReader.ReadFile(formFile);
+            var result = await _fileReader.ReadFile(formFile);
 
             // Assert
             result.Should().NotBeNull();
@@ -77,10 +78,10 @@ namespace Part2.Tests
             IFormFile file = null;
 
             // Act
-            var action = new Action(() => _fileReader.ReadFile(file));
+            var action = new Func<Task>(async () => await _fileReader.ReadFile(file));
 
             // Assert
-            action.Should().Throw<ArgumentException>().WithMessage("Invalid file.");
+            action.Should().ThrowAsync<ArgumentException>().WithMessage("Invalid file.");
         }
 
         [Fact]
@@ -89,8 +90,11 @@ namespace Part2.Tests
             // Arrange
             var formFile = new FormFile(Stream.Null, 0, 0, "test.txt", "test.txt");
 
+            // Act
+            var action = new Func<Task>(async () => await _fileReader.ReadFile(formFile));
+
             // Act and Assert
-            Assert.Throws<ArgumentException>(() => _fileReader.ReadFile(formFile));
+            action.Should().ThrowAsync<ArgumentException>();
         }
 
         private byte[] CompressStringToGzipBytes(string content)

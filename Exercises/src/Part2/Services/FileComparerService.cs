@@ -3,6 +3,7 @@ using Part2.Models.Enums;
 using Part2.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Part2.Services
 {
@@ -14,7 +15,7 @@ namespace Part2.Services
         /// <param name="sourceFile">The source file to compare</param>
         /// <param name="targetFile">The target file to compare against</param>
         /// <returns>Returns the comparison result list</returns>
-        public List<ComparisonResult> CompareFiles(FileModel sourceFile, FileModel targetFile)
+        public Task<List<ComparisonResult>> CompareFiles(FileModel sourceFile, FileModel targetFile)
         {
             var comparisonResult = new List<ComparisonResult>();
 
@@ -73,7 +74,7 @@ namespace Part2.Services
                 Status = ResultStatusEnum.added
             }));
 
-            return comparisonResult;
+            return Task.FromResult(comparisonResult);
         }
     }
 }

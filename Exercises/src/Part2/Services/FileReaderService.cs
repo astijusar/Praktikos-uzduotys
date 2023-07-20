@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Threading.Tasks;
 
 namespace Part2.Services
 {
@@ -16,7 +17,7 @@ namespace Part2.Services
         /// <param name="file">IFormFile that needs to be read</param>
         /// <returns>A FileModel with its information</returns>
         /// <exception cref="ArgumentException">The file can't be null</exception>
-        public FileModel ReadFile(IFormFile file)
+        public async Task<FileModel> ReadFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -42,7 +43,7 @@ namespace Part2.Services
                     {
                         using (var reader = new StreamReader(gzipStream))
                         {
-                            fileContent = reader.ReadToEnd();
+                            fileContent = await reader.ReadToEndAsync();
                         }
                     }
                 }
@@ -50,7 +51,7 @@ namespace Part2.Services
                 {
                     using (var reader = new StreamReader(memoryStream))
                     {
-                        fileContent = reader.ReadToEnd();
+                        fileContent = await reader.ReadToEndAsync();
                     }
                 }
             }

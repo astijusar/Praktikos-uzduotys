@@ -22,7 +22,7 @@ namespace Part2.Tests
         }
 
         [Fact]
-        public void CompareFiles_ShouldReturnUnchangedPairs()
+        public async void CompareFiles_ShouldReturnUnchangedPairs()
         {
             // Setup
             var sourceFile = new FileModel
@@ -46,7 +46,7 @@ namespace Part2.Tests
             };
 
             // Act
-            var result = _fileComparer.CompareFiles(sourceFile, targetFile);
+            var result = await _fileComparer.CompareFiles(sourceFile, targetFile);
 
             // Assert
             result.Should().HaveCount(3);
@@ -58,7 +58,7 @@ namespace Part2.Tests
         }
 
         [Fact]
-        public void CompareFiles_ShouldReturnModifiedPairs()
+        public async void CompareFiles_ShouldReturnModifiedPairs()
         {
             // Setup
             var sourceFile = new FileModel
@@ -82,7 +82,7 @@ namespace Part2.Tests
             };
 
             // Act
-            var result = _fileComparer.CompareFiles(sourceFile, targetFile);
+            var result = await _fileComparer.CompareFiles(sourceFile, targetFile);
 
             // Assert
             result.Should().HaveCount(3);
@@ -96,7 +96,7 @@ namespace Part2.Tests
         }
 
         [Fact]
-        public void CompareFiles_ShouldReturnRemovedPairs()
+        public async void CompareFiles_ShouldReturnRemovedPairs()
         {
             // Setup
             var sourceFile = new FileModel
@@ -119,7 +119,7 @@ namespace Part2.Tests
             };
 
             // Act
-            var result = _fileComparer.CompareFiles(sourceFile, targetFile);
+            var result = await _fileComparer.CompareFiles(sourceFile, targetFile);
 
             // Assert
             result.Should().HaveCount(3);
@@ -133,7 +133,7 @@ namespace Part2.Tests
         }
 
         [Fact]
-        public void CompareFiles_ShouldReturnAddedPairs()
+        public async void CompareFiles_ShouldReturnAddedPairs()
         {
             // Setup
             var sourceFile = new FileModel
@@ -156,7 +156,7 @@ namespace Part2.Tests
             };
 
             // Act
-            var result = _fileComparer.CompareFiles(sourceFile, targetFile);
+            var result = await _fileComparer.CompareFiles(sourceFile, targetFile);
 
             // Assert
             result.Should().HaveCount(3);

@@ -41,13 +41,13 @@ namespace Part2.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidateFilesAttribute))]
-        public IActionResult CompareFiles([Required]IFormFile sourceFile, [Required]IFormFile targetFile,
+        public async Task<IActionResult> CompareFiles([Required]IFormFile sourceFile, [Required]IFormFile targetFile,
             [FromQuery]FileComparisonParameters parameters)
         {
-            var sourceFileData = _fileReader.ReadFile(sourceFile);
-            var targetFileData = _fileReader.ReadFile(targetFile);
+            var sourceFileData = await _fileReader.ReadFile(sourceFile);
+            var targetFileData = await _fileReader.ReadFile(targetFile);
 
-            var comparisonResults = _fileComparer.CompareFiles(sourceFileData, targetFileData);
+            var comparisonResults = await _fileComparer.CompareFiles(sourceFileData, targetFileData);
 
             var filteredResults = comparisonResults;
             if (parameters.ID != null)
