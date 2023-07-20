@@ -27,7 +27,13 @@ namespace Part2.Tests
             // Setup
             var sourceFile = new FileModel
             {
-                IdValuePairs = new List<KeyValuePair<string, string>>
+                TextIdValuePairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("id1", "Value1"),
+                    new KeyValuePair<string, string>("id2", "Value2"),
+                    new KeyValuePair<string, string>("id3", "Value3")
+                },
+                NumberIdValuePairs = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("1", "Value1"),
                     new KeyValuePair<string, string>("2", "Value2"),
@@ -37,7 +43,13 @@ namespace Part2.Tests
 
             var targetFile = new FileModel
             {
-                IdValuePairs = new List<KeyValuePair<string, string>>
+                TextIdValuePairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("id1", "Value1"),
+                    new KeyValuePair<string, string>("id2", "Value2"),
+                    new KeyValuePair<string, string>("id3", "Value3")
+                },
+                NumberIdValuePairs = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("1", "Value1"),
                     new KeyValuePair<string, string>("2", "Value2"),
@@ -46,14 +58,17 @@ namespace Part2.Tests
             };
 
             // Act
-            var result = await _fileComparer.CompareFiles(sourceFile, targetFile);
+            var textResult = await _fileComparer.CompareFiles(sourceFile.TextIdValuePairs, targetFile.TextIdValuePairs);
+            var numberResult = await _fileComparer.CompareFiles(sourceFile.NumberIdValuePairs, targetFile.NumberIdValuePairs);
 
             // Assert
-            result.Should().HaveCount(3);
+            textResult.Should().HaveCount(3);
+            numberResult.Should().HaveCount(3);
 
-            foreach (var res in result)
+            for (var i = 0; i < textResult.Count; i++)
             {
-                res.Status.Should().Be(ResultStatusEnum.unchanged);
+                textResult.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
+                numberResult.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
             }
         }
 
@@ -63,7 +78,13 @@ namespace Part2.Tests
             // Setup
             var sourceFile = new FileModel
             {
-                IdValuePairs = new List<KeyValuePair<string, string>>
+                TextIdValuePairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("id1", "Value1"),
+                    new KeyValuePair<string, string>("id2", "Value2"),
+                    new KeyValuePair<string, string>("id3", "Value3")
+                },
+                NumberIdValuePairs = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("1", "Value1"),
                     new KeyValuePair<string, string>("2", "Value2"),
@@ -73,7 +94,13 @@ namespace Part2.Tests
 
             var targetFile = new FileModel
             {
-                IdValuePairs = new List<KeyValuePair<string, string>>
+                TextIdValuePairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("id1", "Value1"),
+                    new KeyValuePair<string, string>("id2", "Value2"),
+                    new KeyValuePair<string, string>("id3", "Value5")
+                },
+                NumberIdValuePairs = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("1", "Value1"),
                     new KeyValuePair<string, string>("2", "Value2"),
@@ -81,18 +108,21 @@ namespace Part2.Tests
                 }
             };
 
-            // Act
-            var result = await _fileComparer.CompareFiles(sourceFile, targetFile);
+            var textResult = await _fileComparer.CompareFiles(sourceFile.TextIdValuePairs, targetFile.TextIdValuePairs);
+            var numberResult = await _fileComparer.CompareFiles(sourceFile.NumberIdValuePairs, targetFile.NumberIdValuePairs);
 
             // Assert
-            result.Should().HaveCount(3);
+            textResult.Should().HaveCount(3);
+            numberResult.Should().HaveCount(3);
 
-            for (var i = 0; i < result.Count - 1; i++)
+            for (var i = 0; i < textResult.Count - 1; i++)
             {
-                result.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
+                textResult.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
+                numberResult.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
             }
 
-            result.ElementAt(2).Status.Should().Be(ResultStatusEnum.modified);
+            textResult.ElementAt(textResult.Count - 1).Status.Should().Be(ResultStatusEnum.modified);
+            numberResult.ElementAt(numberResult.Count - 1).Status.Should().Be(ResultStatusEnum.modified);
         }
 
         [Fact]
@@ -101,7 +131,13 @@ namespace Part2.Tests
             // Setup
             var sourceFile = new FileModel
             {
-                IdValuePairs = new List<KeyValuePair<string, string>>
+                TextIdValuePairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("id1", "Value1"),
+                    new KeyValuePair<string, string>("id2", "Value2"),
+                    new KeyValuePair<string, string>("id3", "Value3")
+                },
+                NumberIdValuePairs = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("1", "Value1"),
                     new KeyValuePair<string, string>("2", "Value2"),
@@ -111,7 +147,12 @@ namespace Part2.Tests
 
             var targetFile = new FileModel
             {
-                IdValuePairs = new List<KeyValuePair<string, string>>
+                TextIdValuePairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("id1", "Value1"),
+                    new KeyValuePair<string, string>("id2", "Value2"),
+                },
+                NumberIdValuePairs = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("1", "Value1"),
                     new KeyValuePair<string, string>("2", "Value2")
@@ -119,17 +160,21 @@ namespace Part2.Tests
             };
 
             // Act
-            var result = await _fileComparer.CompareFiles(sourceFile, targetFile);
+            var textResult = await _fileComparer.CompareFiles(sourceFile.TextIdValuePairs, targetFile.TextIdValuePairs);
+            var numberResult = await _fileComparer.CompareFiles(sourceFile.NumberIdValuePairs, targetFile.NumberIdValuePairs);
 
             // Assert
-            result.Should().HaveCount(3);
+            textResult.Should().HaveCount(3);
+            numberResult.Should().HaveCount(3);
 
-            for (var i = 0; i < result.Count - 1; i++)
+            for (var i = 0; i < textResult.Count - 1; i++)
             {
-                result.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
+                textResult.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
+                numberResult.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
             }
 
-            result.ElementAt(result.Count - 1).Status.Should().Be(ResultStatusEnum.removed);
+            textResult.ElementAt(textResult.Count - 1).Status.Should().Be(ResultStatusEnum.removed);
+            numberResult.ElementAt(numberResult.Count - 1).Status.Should().Be(ResultStatusEnum.removed);
         }
 
         [Fact]
@@ -138,7 +183,12 @@ namespace Part2.Tests
             // Setup
             var sourceFile = new FileModel
             {
-                IdValuePairs = new List<KeyValuePair<string, string>>
+                TextIdValuePairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("id1", "Value1"),
+                    new KeyValuePair<string, string>("id2", "Value2"),
+                },
+                NumberIdValuePairs = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("1", "Value1"),
                     new KeyValuePair<string, string>("2", "Value2")
@@ -147,7 +197,13 @@ namespace Part2.Tests
 
             var targetFile = new FileModel
             {
-                IdValuePairs = new List<KeyValuePair<string, string>>
+                TextIdValuePairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("id1", "Value1"),
+                    new KeyValuePair<string, string>("id2", "Value2"),
+                    new KeyValuePair<string, string>("id3", "Value3"),
+                },
+                NumberIdValuePairs = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("1", "Value1"),
                     new KeyValuePair<string, string>("2", "Value2"),
@@ -156,17 +212,21 @@ namespace Part2.Tests
             };
 
             // Act
-            var result = await _fileComparer.CompareFiles(sourceFile, targetFile);
+            var textResult = await _fileComparer.CompareFiles(sourceFile.TextIdValuePairs, targetFile.TextIdValuePairs);
+            var numberResult = await _fileComparer.CompareFiles(sourceFile.NumberIdValuePairs, targetFile.NumberIdValuePairs);
 
             // Assert
-            result.Should().HaveCount(3);
+            textResult.Should().HaveCount(3);
+            numberResult.Should().HaveCount(3);
 
-            for (var i = 0; i < result.Count - 1;  i++)
+            for (var i = 0; i < textResult.Count - 1;  i++)
             {
-                result.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
+                textResult.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
+                numberResult.ElementAt(i).Status.Should().Be(ResultStatusEnum.unchanged);
             }
 
-            result.ElementAt(result.Count - 1).Status.Should().Be(ResultStatusEnum.added);
+            textResult.ElementAt(textResult.Count - 1).Status.Should().Be(ResultStatusEnum.added);
+            numberResult.ElementAt(numberResult.Count - 1).Status.Should().Be(ResultStatusEnum.added);
         }
     }
 }

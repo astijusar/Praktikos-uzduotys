@@ -36,13 +36,13 @@ namespace Part2.Tests
             result.Should().NotBeNull();
             result.Name.Should().Be(fileName);
 
-            result.Metadata.Should().HaveCount(2);
-            result.Metadata[0].Should().Contain("id1:value1");
-            result.Metadata[1].Should().Contain("id2:value2");
+            result.TextIdValuePairs.Should().HaveCount(2);
+            result.TextIdValuePairs.Should().Contain(new KeyValuePair<string, string>("id1", "value1"));
+            result.TextIdValuePairs.Should().Contain(new KeyValuePair<string, string>("id2", "value2"));
 
-            result.IdValuePairs.Should().HaveCount(2);
-            result.IdValuePairs.Should().Contain(new KeyValuePair<string, string>("001", "1"));
-            result.IdValuePairs.Should().Contain(new KeyValuePair<string, string>("002", "0"));
+            result.NumberIdValuePairs.Should().HaveCount(2);
+            result.NumberIdValuePairs.Should().Contain(new KeyValuePair<string, string>("001", "1"));
+            result.NumberIdValuePairs.Should().Contain(new KeyValuePair<string, string>("002", "0"));
         }
 
         [Fact]
@@ -62,13 +62,13 @@ namespace Part2.Tests
             result.Should().NotBeNull();
             result.Name.Should().Be(fileName);
 
-            result.Metadata.Should().HaveCount(2);
-            result.Metadata[0].Should().Contain("id1:value1");
-            result.Metadata[1].Should().Contain("id2:value2");
+            result.TextIdValuePairs.Should().HaveCount(2);
+            result.TextIdValuePairs.Should().Contain(new KeyValuePair<string, string>("id1", "value1"));
+            result.TextIdValuePairs.Should().Contain(new KeyValuePair<string, string>("id2", "value2"));
 
-            result.IdValuePairs.Should().HaveCount(2);
-            result.IdValuePairs.Should().Contain(new KeyValuePair<string, string>("001", "1"));
-            result.IdValuePairs.Should().Contain(new KeyValuePair<string, string>("002", "0"));
+            result.NumberIdValuePairs.Should().HaveCount(2);
+            result.NumberIdValuePairs.Should().Contain(new KeyValuePair<string, string>("001", "1"));
+            result.NumberIdValuePairs.Should().Contain(new KeyValuePair<string, string>("002", "0"));
         }
 
         [Fact]
