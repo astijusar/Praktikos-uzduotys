@@ -6,6 +6,6 @@ namespace Part2.Services.Interfaces
 {
     public interface IResultFilterService
     {
-        public List<ComparisonResult> filterComparisonResults(List<ComparisonResult> results, ResultStatusEnum? status, string id);
+        public List<ComparisonResult> FilterComparisonResults(List<ComparisonResult> results, ResultStatusEnum? status, string id);
     }
 }

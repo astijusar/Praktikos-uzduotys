@@ -57,10 +57,10 @@ namespace Part2.Controllers
                 .CompareFiles(sourceFileData.NumberIdValuePairs, targetFileData.NumberIdValuePairs);
 
             var textFilteredParamResults = _resultFilter
-                .filterComparisonResults(textParamResults, param.TextParamResultStatus, param.TextParamID);
+                .FilterComparisonResults(textParamResults, param.TextParamResultStatus, param.TextParamID);
 
             var NumberFilteredParamResults = _resultFilter
-                .filterComparisonResults(numberParamResults, param.NumberParamResultStatus, param.NumberParamID);
+                .FilterComparisonResults(numberParamResults, param.NumberParamResultStatus, param.NumberParamID);
 
             var result = new ComparisonResultWithMetadataDto
             {

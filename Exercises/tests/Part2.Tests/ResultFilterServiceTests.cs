@@ -42,7 +42,7 @@ namespace Part2.Tests
                 }
             };
 
-            var filteredResults = _resultFilterService.filterComparisonResults(results, null, null);
+            var filteredResults = _resultFilterService.FilterComparisonResults(results, null, null);
 
             filteredResults.Should().HaveCount(2);
         }
@@ -70,7 +70,7 @@ namespace Part2.Tests
 
             var status = ResultStatusEnum.modified;
 
-            var filteredResults = _resultFilterService.filterComparisonResults(results, status, null);
+            var filteredResults = _resultFilterService.FilterComparisonResults(results, status, null);
 
             filteredResults.Should().HaveCount(1);
             filteredResults.ElementAt(0).ID.Should().Be("2");
@@ -106,7 +106,7 @@ namespace Part2.Tests
 
             var id = "2";
 
-            var filteredResults = _resultFilterService.filterComparisonResults(results, null, id);
+            var filteredResults = _resultFilterService.FilterComparisonResults(results, null, id);
 
             filteredResults.Should().HaveCount(2);
             filteredResults.ElementAt(0).ID.Should().Be("2");
@@ -144,7 +144,7 @@ namespace Part2.Tests
             var status = ResultStatusEnum.modified;
             var id = "2";
 
-            var filteredResults = _resultFilterService.filterComparisonResults(results, status, id);
+            var filteredResults = _resultFilterService.FilterComparisonResults(results, status, id);
 
             filteredResults.Should().HaveCount(1);
             filteredResults.ElementAt(0).ID.Should().Be("2");

@@ -8,7 +8,14 @@ namespace Part2.Services
 {
     public class ResultFilterService : IResultFilterService
     {
-        public List<ComparisonResult> filterComparisonResults(List<ComparisonResult> results, ResultStatusEnum? status, string id)
+        /// <summary>
+        /// Filters comparison results based on the given status and id
+        /// </summary>
+        /// <param name="results">Comparison results to be filtered</param>
+        /// <param name="status">Result status enum to filter by</param>
+        /// <param name="id">A value that filters ids that start with it</param>
+        /// <returns>A filtered comparison result list</returns>
+        public List<ComparisonResult> FilterComparisonResults(List<ComparisonResult> results, ResultStatusEnum? status, string id)
         {
             var filteredResults = results;
 
