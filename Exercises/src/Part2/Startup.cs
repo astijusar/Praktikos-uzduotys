@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Part1;
+using Part1.Interfaces;
 using Part2.Filters.ActionFilters;
 using Part2.Services;
 using Part2.Services.Interfaces;
@@ -49,8 +51,10 @@ namespace Part2
             services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<IFileValidatorService, FileValidatorService>();
-            services.AddScoped<IFileReaderService, FileReaderService>();
-            services.AddScoped<IFileComparerService, FileComparerService>();
+            services.AddScoped<IFileStorageService, FileStorageService>();
+            services.AddScoped<IFileReader, CfgFileReader>();
+            services.AddScoped<IFileComparer, CfgFileComparer>();
+            services.AddScoped<IResultFilterService, ResultFilterService>();
             services.AddScoped<ValidateFilesAttribute>();
         }
 

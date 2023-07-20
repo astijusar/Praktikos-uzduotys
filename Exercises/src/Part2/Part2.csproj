@@ -20,4 +20,8 @@
     <PackageReference Include="System.Text.Encodings.Web" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Part1\Part1.csproj" />
+  </ItemGroup>
+
 </Project>

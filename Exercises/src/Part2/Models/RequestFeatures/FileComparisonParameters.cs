@@ -1,4 +1,4 @@
-﻿using Part2.Models.Enums;
+﻿using Part1;
 
 namespace Part2.Models.RequestFeatures
 {

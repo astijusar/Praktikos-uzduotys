@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Part1.Interfaces;
 using Part2.Filters.ActionFilters;
 using Part2.Models;
 using Part2.Models.DTOs;
@@ -9,6 +10,7 @@ using Part2.Services.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Part2.Controllers
@@ -17,14 +19,19 @@ namespace Part2.Controllers
     [ApiController]
     public class FileComparisonController : ControllerBase
     {
-        private readonly IFileReaderService _fileReader;
-        private readonly IFileComparerService _fileComparer;
+        private readonly IFileStorageService _fileStorageService;
+        private readonly IFileReader _cfgFileReader;
+        private readonly IFileComparer _cfgFileComparer;
+        private readonly IResultFilterService _resultFilterService;
         private readonly IMapper _mapper;
 
-        public FileComparisonController(IFileReaderService fileReader, IFileComparerService fileComparer, IMapper mapper)
+        public FileComparisonController(IFileStorageService storageService, IFileReader cfgFileReader,
+            IFileComparer cfgFileComparer, IResultFilterService resultFilterService, IMapper mapper)
         {
-            _fileReader = fileReader;
-            _fileComparer = fileComparer;
+            _fileStorageService = storageService;
+            _cfgFileReader = cfgFileReader;
+            _cfgFileComparer = cfgFileComparer;
+            _resultFilterService = resultFilterService;
             _mapper = mapper;
         }
 
@@ -33,7 +40,7 @@ namespace Part2.Controllers
         /// </summary>
         /// <param name="sourceFile">The source file to compare</param>
         /// <param name="targetFile">The target file to compare against</param>
-        /// <param name="parameters">Additional parameters for result filtering</param>
+        /// <param name="param">Additional parameters for result filtering</param>
         /// <returns>Returns the comparison result</returns>
         /// <response code="200">Returns the results of comparison</response>
         /// <response code="422">Returns a model state error</response>
@@ -42,32 +49,29 @@ namespace Part2.Controllers
         [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidateFilesAttribute))]
         public async Task<IActionResult> CompareFiles([Required]IFormFile sourceFile, [Required]IFormFile targetFile,
-            [FromQuery]FileComparisonParameters parameters)
+            [FromQuery]FileComparisonParameters param)
         {
-            var sourceFileData = await _fileReader.ReadFile(sourceFile);
-            var targetFileData = await _fileReader.ReadFile(targetFile);
+            var sourceFilePath = await _fileStorageService.SaveFileAsync(sourceFile);
+            var targetFilePath = await _fileStorageService.SaveFileAsync(targetFile);
 
-            var comparisonResults = await _fileComparer.CompareFiles(sourceFileData, targetFileData);
+            var sourceFileData = _cfgFileReader.ReadFile(sourceFilePath);
+            var targetFileData = _cfgFileReader.ReadFile(targetFilePath);
 
-            var filteredResults = comparisonResults;
-            if (parameters.ID != null)
-            {
-                filteredResults = filteredResults.Where(r => r.ID.StartsWith(parameters.ID)).ToList();
-            }
+            var comparisonResults = _cfgFileComparer.CompareFiles(sourceFileData, targetFileData).ResultEntries;
 
-            if (parameters.ResultStatus != null)
-            {
-                filteredResults = filteredResults.Where(r => r.Status.Equals(parameters.ResultStatus)).ToList();
-            }
+            var filteredComparisonResults = _resultFilterService.FilterComparisonResults(comparisonResults, param.ResultStatus, param.ID);
 
-            var result = new ComparisonResultWithMetadataDto
+            var resultDto = new ComparisonResultWithMetadataDto
             {
                 SourceFile = _mapper.Map<FileModelDto>(sourceFileData),
                 TargetFile = _mapper.Map<FileModelDto>(targetFileData),
-                ComparisonResult = _mapper.Map<List<ComparisonResultDto>>(filteredResults)
+                ComparisonResult = _mapper.Map<List<ComparisonResultDto>>(filteredComparisonResults)
             };
 
-            return Ok(result);
+            _fileStorageService.DeleteFile(sourceFilePath);
+            _fileStorageService.DeleteFile(targetFilePath);
+
+            return Ok(resultDto);
         }
     }
 }

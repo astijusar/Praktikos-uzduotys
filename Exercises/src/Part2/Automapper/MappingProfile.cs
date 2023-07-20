@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Part2.Models;
+using Part1;
+using Part1.Interfaces;
 using Part2.Models.DTOs;
 
 namespace Part2.Automapper
@@ -11,13 +12,13 @@ namespace Part2.Automapper
     {
         public MappingProfile()
         {
-            CreateMap<FileModel, FileModelDto>()
+            CreateMap<CfgFile, FileModelDto>()
                 .ForMember(
                     dest => dest.FileName,
                     opt => opt.MapFrom(src => src.Name)
                 );
 
-            CreateMap<ComparisonResult, ComparisonResultDto>();
+            CreateMap<ComparisonResultEntry, ComparisonResultDto>();
         }
     }
 }

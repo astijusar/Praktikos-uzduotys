@@ -1,4 +1,4 @@
-﻿using Part2.Models.Enums;
+﻿using Part1;
 using System.Collections.Generic;
 
 namespace Part2.Models.DTOs
