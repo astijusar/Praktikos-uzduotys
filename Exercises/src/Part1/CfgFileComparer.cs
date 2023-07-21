@@ -61,7 +61,7 @@ namespace Part1
                 {
                     var targetValue = targetCfgFile.IdValuePairs[id].ToString();
 
-                    result.ResultEntries.Add(CreateComparisonResultEntry(id, "", targetValue, ResultStatusEnum.removed));
+                    result.ResultEntries.Add(CreateComparisonResultEntry(id, "", targetValue, ResultStatusEnum.added));
                     result.Added++;
                 }
             }
