@@ -61,17 +61,17 @@ namespace Part1
             catch (FileNotFoundException)
             {
                 Console.Write($"File not found using the given path - {path}");
-                Environment.Exit(1);
+                throw;
             }
             catch (DirectoryNotFoundException)
             {
                 Console.Write($"Directory not found using the given path - {path}");
-                Environment.Exit(1);
+                throw;
             }
             catch (UnauthorizedAccessException)
             {
                 Console.Write($"The access to the file is unauthorized: {path}");
-                Environment.Exit(1);
+                throw;
             }
 
             return file;
