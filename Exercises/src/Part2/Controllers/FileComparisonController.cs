@@ -19,12 +19,15 @@ namespace Part2.Controllers
     {
         private readonly IFileReaderService _fileReader;
         private readonly IFileComparerService _fileComparer;
+        private readonly IResultFilterService _resultFilter;
         private readonly IMapper _mapper;
 
-        public FileComparisonController(IFileReaderService fileReader, IFileComparerService fileComparer, IMapper mapper)
+        public FileComparisonController(IFileReaderService fileReader, IFileComparerService fileComparer,
+            IResultFilterService resultFilter, IMapper mapper)
         {
             _fileReader = fileReader;
             _fileComparer = fileComparer;
+            _resultFilter = resultFilter;
             _mapper = mapper;
         }
 
@@ -49,16 +52,7 @@ namespace Part2.Controllers
 
             var comparisonResults = await _fileComparer.CompareFiles(sourceFileData, targetFileData);
 
-            var filteredResults = comparisonResults;
-            if (parameters.ID != null)
-            {
-                filteredResults = filteredResults.Where(r => r.ID.StartsWith(parameters.ID)).ToList();
-            }
-
-            if (parameters.ResultStatus != null)
-            {
-                filteredResults = filteredResults.Where(r => r.Status.Equals(parameters.ResultStatus)).ToList();
-            }
+            var filteredResults = _resultFilter.FilterComparisonResults(comparisonResults, parameters.ResultStatus, parameters.ID);
 
             var result = new ComparisonResultWithMetadataDto
             {
