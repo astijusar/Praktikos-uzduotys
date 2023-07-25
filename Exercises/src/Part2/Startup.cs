@@ -46,6 +46,8 @@ namespace Part2
                 c.IncludeXmlComments(xmlPath);
             });
 
+            services.AddCors();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<IFileValidatorService, FileValidatorService>();
@@ -65,7 +67,13 @@ namespace Part2
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CFG File Compare v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors(
+                options => options.WithOrigins("http://localhost:5173")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+            );
+
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
