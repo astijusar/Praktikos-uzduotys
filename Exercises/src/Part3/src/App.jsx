@@ -1,10 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 import FileUploadInput from "./components/FileUploadInput";
 import Navbar from "./components/navbar";
 import "./css/App.css";
 import FilterBar from "./components/FilterBar";
 
 export default function App() {
+  const [sourceFileData, setSourceFileData] = useState(null);
+  const [targetFileData, setTargetFileData] = useState(null);
+  const [comparisonResult, setComparisonResult] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState({
     sourceFile: null,
     targetFile: null,
@@ -17,10 +21,39 @@ export default function App() {
     }));
   }
 
-  function handleSubmit(filters, search) {
-    console.log(filters);
-    console.log(search);
+  async function handleSubmit(filters, search) {
+    const formData = new FormData();
+    formData.append("sourceFile", selectedFiles.sourceFile);
+    formData.append("targetFile", selectedFiles.targetFile);
+
+    const params = {
+      ID: search,
+      ResultStatus: filters,
+    };
+
+    await axios
+      .post(import.meta.env.VITE_API_URL + "/api/FileComparison", formData, {
+        params: {
+          ID: search,
+          ResultStatus: filters,
+        },
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setSourceFileData(response.data.sourceFile);
+        setTargetFileData(response.data.targetFile);
+        setComparisonResult(response.data.comparisonResult);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
+
+  const showFilterBar =
+    selectedFiles.sourceFile !== null && selectedFiles.targetFile !== null;
 
   return (
     <div>
@@ -56,9 +89,7 @@ export default function App() {
         </div>
         <div className="row d-flex justify-content-center mt-3">
           <div className="col-12">
-            <FilterBar 
-              onSubmit={handleSubmit}
-            />
+            {showFilterBar && <FilterBar onSubmit={handleSubmit} />}
           </div>
         </div>
       </div>

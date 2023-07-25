@@ -20,7 +20,12 @@ export default function FilterBar({ onSubmit }) {
   }
 
   function handleSubmit() {
-    onSubmit(filters, searchValue);
+    const filterString = Object.entries(filters)
+      .filter(([filter, checked]) => checked)
+      .map(([filter, checked]) => filter)
+      .join(',');
+
+    onSubmit(filterString, searchValue);
   }
 
   return (
