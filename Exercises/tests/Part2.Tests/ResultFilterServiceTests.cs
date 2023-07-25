@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Part2.Models;
 using Part2.Models.Enums;
+using Part2.Models.RequestFeatures;
 using Part2.Services;
 using Part2.Services.Interfaces;
 using System;
@@ -42,7 +43,9 @@ namespace Part2.Tests
                 }
             };
 
-            var filteredResults = _resultFilterService.FilterComparisonResults(results, null, null);
+            var param = new FileComparisonParameters();
+
+            var filteredResults = _resultFilterService.FilterComparisonResults(results, param);
 
             filteredResults.Should().HaveCount(2);
         }
@@ -68,9 +71,12 @@ namespace Part2.Tests
                 }
             };
 
-            var status = ResultStatusEnum.modified;
+            var param = new FileComparisonParameters
+            {
+                ResultStatus = "modified"
+            };
 
-            var filteredResults = _resultFilterService.FilterComparisonResults(results, status, null);
+            var filteredResults = _resultFilterService.FilterComparisonResults(results, param);
 
             filteredResults.Should().HaveCount(1);
             filteredResults.ElementAt(0).ID.Should().Be("2");
@@ -104,9 +110,12 @@ namespace Part2.Tests
                 }
             };
 
-            var id = "2";
+            var param = new FileComparisonParameters
+            {
+                ID = "2"
+            };
 
-            var filteredResults = _resultFilterService.FilterComparisonResults(results, null, id);
+            var filteredResults = _resultFilterService.FilterComparisonResults(results, param);
 
             filteredResults.Should().HaveCount(2);
             filteredResults.ElementAt(0).ID.Should().Be("2");
@@ -141,10 +150,13 @@ namespace Part2.Tests
                 }
             };
 
-            var status = ResultStatusEnum.modified;
-            var id = "2";
+            var param = new FileComparisonParameters
+            {
+                ID = "2",
+                ResultStatus = "modified"
+            };
 
-            var filteredResults = _resultFilterService.FilterComparisonResults(results, status, id);
+            var filteredResults = _resultFilterService.FilterComparisonResults(results, param);
 
             filteredResults.Should().HaveCount(1);
             filteredResults.ElementAt(0).ID.Should().Be("2");
