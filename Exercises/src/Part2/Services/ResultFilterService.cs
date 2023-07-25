@@ -1,5 +1,6 @@
 ﻿using Part2.Models;
 using Part2.Models.Enums;
+using Part2.Models.RequestFeatures;
 using Part2.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,21 +13,24 @@ namespace Part2.Services
         /// Filters comparison results based on the given status and id
         /// </summary>
         /// <param name="results">Comparison results to be filtered</param>
-        /// <param name="status">Result status enum to filter by</param>
-        /// <param name="id">A value that filters ids that start with it</param>
+        /// <param name="parameters">Parameters to filter the result by</param>
         /// <returns>A filtered comparison result list</returns>
-        public List<ComparisonResult> FilterComparisonResults(List<ComparisonResult> results, ResultStatusEnum? status, string id)
+        public List<ComparisonResult> FilterComparisonResults(List<ComparisonResult> results,
+            FileComparisonParameters parameters)
         {
             var filteredResults = results;
 
-            if (id != null)
+            if (parameters.ID != null)
             {
-                filteredResults = filteredResults.Where(r => r.ID.StartsWith(id.ToLower())).ToList();
+                filteredResults = filteredResults.Where(r => r.ID.StartsWith(parameters.ID.ToLower())).ToList();
             }
 
-            if (status != null)
+            if (parameters.ResultStatus != null)
             {
-                filteredResults = filteredResults.Where(r => r.Status.Equals(status)).ToList();
+                var statusList = parameters.ResultStatus.Split(',').ToList();
+                statusList = statusList.Select(s => s.Trim()).ToList();
+
+                filteredResults = filteredResults.Where(r => statusList.Contains(r.Status.ToString())).ToList();
             }
 
             return filteredResults;

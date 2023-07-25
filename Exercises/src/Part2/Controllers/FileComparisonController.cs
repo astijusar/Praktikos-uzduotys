@@ -36,7 +36,7 @@ namespace Part2.Controllers
         /// </summary>
         /// <param name="sourceFile">The source file to compare</param>
         /// <param name="targetFile">The target file to compare against</param>
-        /// <param name="parameters">Additional parameters for result filtering</param>
+        /// <param name="parameters">Additional parameters for result filtering separated by a comma</param>
         /// <returns>Returns the comparison result</returns>
         /// <response code="200">Returns the results of comparison</response>
         /// <response code="422">Returns a model state error</response>
@@ -52,7 +52,7 @@ namespace Part2.Controllers
 
             var comparisonResults = await _fileComparer.CompareFiles(sourceFileData, targetFileData);
 
-            var filteredResults = _resultFilter.FilterComparisonResults(comparisonResults, parameters.ResultStatus, parameters.ID);
+            var filteredResults = _resultFilter.FilterComparisonResults(comparisonResults, parameters);
 
             var result = new ComparisonResultWithMetadataDto
             {
