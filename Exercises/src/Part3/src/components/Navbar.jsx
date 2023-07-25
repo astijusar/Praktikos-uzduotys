@@ -2,7 +2,7 @@ import logo from "../assets/TELTONIKA-TELEMATICS.png";
 
 export default function Navbar() {
   return (
-    <nav className="navbar">
+    <nav className="navbar" style={{ backgroundColor: "#1e3d71" }}>
       <div className="container-md">
         <div className="row">
           <div className="col-4">
