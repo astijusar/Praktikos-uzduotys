@@ -11,3 +11,10 @@
     border-radius: 5px;
     font-weight: 700;
 }
+
+.filter-bar-btn:disabled {
+    background-color: #3266c0;
+    color: white;
+    border-radius: 5px;
+    font-weight: 700;
+}

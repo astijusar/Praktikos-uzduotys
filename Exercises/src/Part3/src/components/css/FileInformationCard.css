@@ -1,0 +1,14 @@
+.card-body {
+    font-size: 1.2em;
+    line-height: 0.8em;
+}
+
+.card-header {
+    font-size: 1.3em;
+    background-color: #1e3d71;
+    color: white;
+}
+
+.file-name {
+    font-weight: 700;
+}

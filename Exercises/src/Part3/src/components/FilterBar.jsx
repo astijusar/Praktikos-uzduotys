@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./css/FilterBar.css";
 
-export default function FilterBar({ onSubmit }) {
+export default function FilterBar({ onSubmit, isActiveSubmitButton }) {
   const [searchValue, setSearchValue] = useState('');
   const [filters, setFilters] = useState({
     unchanged: false,
@@ -97,6 +97,7 @@ export default function FilterBar({ onSubmit }) {
             type="button"
             className="filter-bar-btn"
             onClick={handleSubmit}
+            disabled={!isActiveSubmitButton}
           >
             Submit
           </button>
