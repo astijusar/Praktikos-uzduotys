@@ -1,0 +1,16 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+    color: #1e3d71;
+}
+
+.display-1 {
+    font-family: 'Oswald', sans-serif;
+}
+
+.subheading {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar {
+    background-color: #1e3d71;
+}
