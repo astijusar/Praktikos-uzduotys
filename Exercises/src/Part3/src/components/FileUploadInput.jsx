@@ -19,6 +19,11 @@ export default function FileUploadInput({
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
 
+    if (!selectedFile) {
+      setSelectedFileName("");
+      return;
+    }
+
     if (!allowedExtensions.test(selectedFile.name)) {
       alert("Please select a file with the .cfg extension.");
       fileInputRef.current.value = null;
