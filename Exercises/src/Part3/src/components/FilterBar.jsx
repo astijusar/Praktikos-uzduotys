@@ -1,8 +1,13 @@
 import { useState } from "react";
 import "./css/FilterBar.css";
 
-export default function FilterBar({ onSubmit, isActiveSubmitButton, handleReset }) {
-  const [searchValue, setSearchValue] = useState('');
+export default function FilterBar({
+  onSubmit,
+  isActiveSubmitButton,
+  statusCount,
+  handleReset,
+}) {
+  const [searchValue, setSearchValue] = useState("");
   const [filters, setFilters] = useState({
     unchanged: false,
     modified: false,
@@ -23,7 +28,7 @@ export default function FilterBar({ onSubmit, isActiveSubmitButton, handleReset 
     const filterString = Object.entries(filters)
       .filter(([filter, checked]) => checked)
       .map(([filter, checked]) => filter)
-      .join(',');
+      .join(",");
 
     onSubmit(filterString, searchValue);
   }
@@ -42,7 +47,10 @@ export default function FilterBar({ onSubmit, isActiveSubmitButton, handleReset 
               onChange={handleFilterChange}
             />
             <label className="form-check-label" htmlFor="checkboxUnchanged">
-              Unchanged
+              Unchanged{" "}
+              <span className="fw-bolder">
+                ({statusCount.unchanged})
+              </span>
             </label>
           </div>
           <div className="form-check form-check-inline">
@@ -55,7 +63,10 @@ export default function FilterBar({ onSubmit, isActiveSubmitButton, handleReset 
               onChange={handleFilterChange}
             />
             <label className="form-check-label" htmlFor="checkboxModified">
-              Modified
+              Modified{" "}
+              <span className="fw-bolder">
+                ({statusCount.modified})
+              </span>
             </label>
           </div>
           <div className="form-check form-check-inline">
@@ -68,7 +79,10 @@ export default function FilterBar({ onSubmit, isActiveSubmitButton, handleReset 
               onChange={handleFilterChange}
             />
             <label className="form-check-label" htmlFor="checkboxRemoved">
-              Removed
+              Removed{" "}
+              <span className="fw-bolder">
+                ({statusCount.removed})
+              </span>
             </label>
           </div>
           <div className="form-check form-check-inline">
@@ -81,7 +95,10 @@ export default function FilterBar({ onSubmit, isActiveSubmitButton, handleReset 
               onChange={handleFilterChange}
             />
             <label className="form-check-label" htmlFor="checkboxAdded">
-              Added
+              Added{" "}
+              <span className="fw-bolder">
+                ({statusCount.added})
+              </span>
             </label>
           </div>
         </div>
@@ -99,7 +116,7 @@ export default function FilterBar({ onSubmit, isActiveSubmitButton, handleReset 
             onClick={handleSubmit}
             disabled={!isActiveSubmitButton}
           >
-            Submit
+            Compare
           </button>
           <button
             type="button"

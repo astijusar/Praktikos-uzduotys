@@ -19,6 +19,12 @@ export default function App() {
     sourceFile: null,
     targetFile: null,
   });
+  const [statusCount, setStatusCount] = useState({
+    unchanged: 0,
+    modified: 0,
+    added: 0,
+    removed: 0,
+  });
 
   function handleFileSelect(fileInputName, file) {
     setSelectedFiles((prevSelectedFiles) => ({
@@ -30,7 +36,13 @@ export default function App() {
   function handleReset() {
     setSelectedFiles({
       sourceFile: null,
-      targetFile: null
+      targetFile: null,
+    });
+    setStatusCount({
+      unchanged: 0,
+      modified: 0,
+      added: 0,
+      removed: 0,
     });
     setComparisonResult(null);
     setIsActiveSubmitButton(false);
@@ -61,21 +73,51 @@ export default function App() {
         setTargetFileData(response.data.targetFile);
         setComparisonResult(response.data.comparisonResult);
 
+        const counts = {
+          unchanged: 0,
+          modified: 0,
+          added: 0,
+          removed: 0,
+        };
+    
+        response.data.comparisonResult.forEach((item) => {
+          switch (item.status) {
+            case "unchanged":
+              counts.unchanged++;
+              break;
+            case "modified":
+              counts.modified++;
+              break;
+            case "added":
+              counts.added++;
+              break;
+            case "removed":
+              counts.removed++;
+              break;
+            default:
+              break;
+          }
+        });
+    
+        setStatusCount(counts);
+        console.log(counts);
       })
       .catch((error) => {
         console.log(error);
         setIsError(true);
       });
 
-      setIsLoading(false);
-      setIsActiveSubmitButton(true);
+    setIsLoading(false);
+    setIsActiveSubmitButton(true);
   }
 
   useEffect(() => {
     if (selectedFiles.sourceFile && selectedFiles.targetFile) {
       setIsActiveSubmitButton(true);
+    } else {
+      setIsActiveSubmitButton(false);
     }
-  }, [selectedFiles])
+  }, [selectedFiles]);
 
   return (
     <div>
@@ -83,7 +125,9 @@ export default function App() {
       <div className="container" style={{ marginTop: "6vh" }}>
         <div className="row">
           <div className="col d-flex justify-content-center">
-            <h1 className="display-1 fw-normal text-center">.CFG File Comparison Tool</h1>
+            <h1 className="display-1 fw-normal text-center">
+              .CFG File Comparison Tool
+            </h1>
           </div>
         </div>
         <div className="row">
@@ -106,6 +150,7 @@ export default function App() {
             <FilterBar
               onSubmit={handleSubmit}
               isActiveSubmitButton={isActiveSubmitButton}
+              statusCount={statusCount}
               handleReset={handleReset}
             />
           </div>
