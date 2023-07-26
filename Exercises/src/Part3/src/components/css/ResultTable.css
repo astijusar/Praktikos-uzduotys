@@ -1,0 +1,21 @@
+.table-head {
+    font-size: 1.3em;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.row-unchanged {
+    background-color: whitesmoke;
+}
+  
+.row-added {
+background-color: #77DD77;
+}
+
+.row-removed {
+background-color: #FF5733;
+}
+
+.row-modified {
+background-color: #FFFAA0;
+}
