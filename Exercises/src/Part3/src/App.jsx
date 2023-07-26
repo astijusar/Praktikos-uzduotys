@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import FileUploadInput from "./components/FileUploadInput";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import "./css/App.css";
+import FileUploadSection from "./components/FileUploadSection";
 import FilterBar from "./components/FilterBar";
-import FileInformationCard from "./components/FileInformationCard";
-import { BarLoader } from "react-spinners";
-import ResultTable from "./components/ResultTable";
+import ErrorSection from "./components/ErrorSection";
+import LoadingSection from "./components/LoadingSection";
+import ResultSection from "./components/ResultSection";
 
 export default function App() {
   const [isError, setIsError] = useState(false);
@@ -25,6 +25,15 @@ export default function App() {
       ...prevSelectedFiles,
       [fileInputName]: file,
     }));
+  }
+
+  function handleReset() {
+    setSelectedFiles({
+      sourceFile: null,
+      targetFile: null
+    });
+    setComparisonResult(null);
+    setIsActiveSubmitButton(false);
   }
 
   async function handleSubmit(filters, search) {
@@ -84,69 +93,24 @@ export default function App() {
             </p>
           </div>
         </div>
-        <div className="row d-flex justify-content-center mt-5">
-          <div className="col-lg-6">
-            {comparisonResult === null ? (
-              <FileUploadInput
-                fileInputName="sourceFile"
-                onFileSelect={handleFileSelect}
-                label="Source File"
-              />
-            ) : (
-              <FileInformationCard
-                file={sourceFileData}
-                label="Source File: "
-              />
-            )}
-          </div>
-          <div className="col-lg-6 mt-3 mt-lg-0">
-            {comparisonResult === null ? (
-              <FileUploadInput
-                fileInputName="targetFile"
-                onFileSelect={handleFileSelect}
-                label="Target File"
-              />
-            ) : (
-              <FileInformationCard
-                file={targetFileData}
-                label="Target File: "
-              />
-            )}
-          </div>
-        </div>
-        {isError && (
-          <div className="alert alert-danger mt-3" role="alert">
-            Something went wrong. Please try again later!
-          </div>
-        )}
-        {isLoading && (
-          <div className="row mt-3">
-            <div className="col-12">
-              <BarLoader 
-                loading={isLoading}
-                className="w-100"
-                color="#1e3d71"
-              />
-            </div>
-          </div>
-        )}
+        <FileUploadSection
+          comparisonResult={comparisonResult}
+          sourceFileData={sourceFileData}
+          targetFileData={targetFileData}
+          handleFileSelect={handleFileSelect}
+        />
+        <ErrorSection isError={isError} />
+        <LoadingSection isLoading={isLoading} />
         <div className="row d-flex justify-content-center mt-4 mt-lg-3">
           <div className="col-12">
             <FilterBar
               onSubmit={handleSubmit}
               isActiveSubmitButton={isActiveSubmitButton}
+              handleReset={handleReset}
             />
           </div>
         </div>
-        {comparisonResult && (
-          <div className="row mb-5 mt-4 mt-lg-3">
-            <div className="col-12">
-              <ResultTable 
-                data={comparisonResult}
-              />
-            </div>
-          </div>
-        )}
+        <ResultSection comparisonResult={comparisonResult} />
       </div>
     </div>
   );

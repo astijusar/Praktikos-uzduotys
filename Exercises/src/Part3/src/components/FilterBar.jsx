@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./css/FilterBar.css";
 
-export default function FilterBar({ onSubmit, isActiveSubmitButton }) {
+export default function FilterBar({ onSubmit, isActiveSubmitButton, handleReset }) {
   const [searchValue, setSearchValue] = useState('');
   const [filters, setFilters] = useState({
     unchanged: false,
@@ -95,11 +95,18 @@ export default function FilterBar({ onSubmit, isActiveSubmitButton }) {
           />
           <button
             type="button"
-            className="filter-bar-btn"
+            className="filter-bar-btn me-2"
             onClick={handleSubmit}
             disabled={!isActiveSubmitButton}
           >
             Submit
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline-danger"
+            onClick={handleReset}
+          >
+            Reset
           </button>
         </div>
       </div>
