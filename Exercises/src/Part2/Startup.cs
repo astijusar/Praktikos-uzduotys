@@ -73,7 +73,7 @@ namespace Part2
                     .AllowAnyMethod()
             );
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 

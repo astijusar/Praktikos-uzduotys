@@ -73,7 +73,7 @@ export default function App() {
       <div className="container" style={{ marginTop: "6vh" }}>
         <div className="row">
           <div className="col d-flex justify-content-center">
-            <h1 className="display-1 fw-normal">.CFG Comparison Tool</h1>
+            <h1 className="display-1 fw-normal">.CFG File Comparison Tool</h1>
           </div>
         </div>
         <div className="row">
@@ -129,7 +129,7 @@ export default function App() {
             </div>
           </div>
         )}
-        <div className="row d-flex justify-content-center mt-3">
+        <div className="row d-flex justify-content-center mt-4 mt-lg-3">
           <div className="col-12">
             <FilterBar
               onSubmit={handleSubmit}
