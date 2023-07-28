@@ -1,30 +1,31 @@
-﻿using FluentAssertions;
-using Part1.Interfaces;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Enums;
+using Core.Interfaces;
+using Core.Models;
+using FluentAssertions;
 using Xunit;
 
-namespace Part1.Tests
+namespace Core.Tests
 {
-    public class CfgFileComparerTests
+    public class ConfigurationComparerTests
     {
-        private readonly IFileComparer _cfgFileComparer;
+        private readonly IConfigurationComparer _configurationComparer;
 
-        public CfgFileComparerTests()
+        public ConfigurationComparerTests()
         {
-            _cfgFileComparer = new CfgFileComparer();
+            _configurationComparer = new ConfigurationComparer();
         }
 
         [Fact]
         public void CompareFiles_ShouldReturnUnchangedPairs()
         {
             // Arrange
-            var sourceFile = new CfgFile
+            var sourceFile = new FileModel()
             {
                 IdValuePairs = new Hashtable
                 {
@@ -34,7 +35,7 @@ namespace Part1.Tests
                 }
             };
 
-            var targetFile = new CfgFile
+            var targetFile = new FileModel()
             {
                 IdValuePairs = new Hashtable
                 {
@@ -45,14 +46,14 @@ namespace Part1.Tests
             };
 
             // Act
-            var result = _cfgFileComparer.CompareFiles(sourceFile, targetFile);
+            var result = _configurationComparer.Compare(sourceFile, targetFile);
 
             // Assert
             result.ResultEntries.Should().HaveCount(3);
 
             foreach (var res in result.ResultEntries)
             {
-                res.Status.Should().Be(ResultStatusEnum.unchanged);
+                res.Status.Should().Be(ResultStatus.Unchanged);
             }
 
             result.Unchanged.Should().Be(3);
@@ -65,7 +66,7 @@ namespace Part1.Tests
         public void CompareFiles_ShouldReturnModifiedPairs()
         {
             // Arrange
-            var sourceFile = new CfgFile
+            var sourceFile = new FileModel
             {
                 IdValuePairs = new Hashtable
                 {
@@ -75,7 +76,7 @@ namespace Part1.Tests
                 }
             };
 
-            var targetFile = new CfgFile
+            var targetFile = new FileModel
             {
                 IdValuePairs = new Hashtable
                 {
@@ -86,11 +87,11 @@ namespace Part1.Tests
             };
 
             // Act
-            var result = _cfgFileComparer.CompareFiles(sourceFile, targetFile);
+            var result = _configurationComparer.Compare(sourceFile, targetFile);
 
             // Assert
             result.ResultEntries.Should().HaveCount(3);
-            result.ResultEntries.Should().ContainSingle(r => r.Status.Equals(ResultStatusEnum.modified));
+            result.ResultEntries.Should().ContainSingle(r => r.Status.Equals(ResultStatus.Modified));
 
             result.Unchanged.Should().Be(2);
             result.Modified.Should().Be(1);
@@ -102,7 +103,7 @@ namespace Part1.Tests
         public void CompareFiles_ShouldReturnRemovedPairs()
         {
             // Setup
-            var sourceFile = new CfgFile
+            var sourceFile = new FileModel
             {
                 IdValuePairs = new Hashtable
                 {
@@ -112,7 +113,7 @@ namespace Part1.Tests
                 }
             };
 
-            var targetFile = new CfgFile
+            var targetFile = new FileModel
             {
                 IdValuePairs = new Hashtable
                 {
@@ -122,11 +123,11 @@ namespace Part1.Tests
             };
 
             // Act
-            var result = _cfgFileComparer.CompareFiles(sourceFile, targetFile);
+            var result = _configurationComparer.Compare(sourceFile, targetFile);
 
             // Assert
             result.ResultEntries.Should().HaveCount(3);
-            result.ResultEntries.Should().ContainSingle(r => r.Status.Equals(ResultStatusEnum.removed));
+            result.ResultEntries.Should().ContainSingle(r => r.Status.Equals(ResultStatus.Removed));
 
             result.Unchanged.Should().Be(2);
             result.Modified.Should().Be(0);
@@ -138,7 +139,7 @@ namespace Part1.Tests
         public void CompareFiles_ShouldReturnAddedPairs()
         {
             // Setup
-            var sourceFile = new CfgFile
+            var sourceFile = new FileModel
             {
                 IdValuePairs = new Hashtable
                 {
@@ -147,7 +148,7 @@ namespace Part1.Tests
                 }
             };
 
-            var targetFile = new CfgFile
+            var targetFile = new FileModel
             {
                 IdValuePairs = new Hashtable
                 {
@@ -158,11 +159,11 @@ namespace Part1.Tests
             };
 
             // Act
-            var result = _cfgFileComparer.CompareFiles(sourceFile, targetFile);
+            var result = _configurationComparer.Compare(sourceFile, targetFile);
 
             // Assert
             result.ResultEntries.Should().HaveCount(3);
-            result.ResultEntries.Should().ContainSingle(r => r.Status.Equals(ResultStatusEnum.added));
+            result.ResultEntries.Should().ContainSingle(r => r.Status.Equals(ResultStatus.Added));
 
             result.Unchanged.Should().Be(2);
             result.Modified.Should().Be(0);

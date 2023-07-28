@@ -1,20 +1,22 @@
-using FluentAssertions;
-using Moq;
-using Part1.Interfaces;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Core.Interfaces;
+using FluentAssertions;
 using Xunit;
 
-namespace Part1.Tests
+namespace Core.Tests
 {
-    public class CfgFileReaderTests
+    public class ConfigurationReaderTests
     {
-        private readonly IFileReader _cfgFileReader;
+        private readonly IConfigurationReader _configurationReader;
 
-        public CfgFileReaderTests()
+        public ConfigurationReaderTests()
         {
-            _cfgFileReader = new CfgFileReader();
+            _configurationReader = new ConfigurationReader();
         }
 
         [Fact]
@@ -24,7 +26,7 @@ namespace Part1.Tests
             var testFile = "FMB920-default.cfg";
 
             // Act
-            var result = _cfgFileReader.ReadFile(testFile);
+            var result = _configurationReader.ReadFromFile(testFile);
 
             // Assert
             result.Should().NotBeNull();
@@ -38,7 +40,7 @@ namespace Part1.Tests
             var testFile = "test.cfg";
 
             // Act
-            var action = new Action(() => _cfgFileReader.ReadFile(testFile));
+            var action = new Action(() => _configurationReader.ReadFromFile(testFile));
 
             // Assert
             action.Should().Throw<FileNotFoundException>();
@@ -51,7 +53,7 @@ namespace Part1.Tests
             var testFile = "randomDir/test.cfg";
 
             // Act
-            var action = new Action(() => _cfgFileReader.ReadFile(testFile));
+            var action = new Action(() => _configurationReader.ReadFromFile(testFile));
 
             // Assert
             action.Should().Throw<DirectoryNotFoundException>();
