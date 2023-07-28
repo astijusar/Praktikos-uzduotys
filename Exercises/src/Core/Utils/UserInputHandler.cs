@@ -1,11 +1,10 @@
-﻿using Part1.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Part1
+namespace Core.Utils
 {
     public static class UserInputHandler
     {
@@ -22,7 +21,7 @@ namespace Part1
         /// <summary>
         /// Get user inputted line
         /// </summary>
-        /// <param name="message">An optional message writen before the input</param>
+        /// <param name="message">An optional message written before the input</param>
         /// <returns>The user inputted line</returns>
         public static string GetLineInput(string message = null)
         {
@@ -41,7 +40,7 @@ namespace Part1
         /// <returns>The number that the user chose</returns>
         public static uint GetUserMenuChoice(int choiceMax)
         {
-            uint choice = GetInput();
+            var choice = GetInput();
 
             while (choice < 1 || choice > choiceMax)
             {
@@ -55,10 +54,8 @@ namespace Part1
 
         private static uint GetInput()
         {
-            uint choice = 0;
-
             Console.Write("> ");
-            uint.TryParse(Console.ReadLine(), out choice);
+            uint.TryParse(Console.ReadLine(), out var choice);
 
             return choice;
         }

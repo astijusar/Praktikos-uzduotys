@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Part1.Interfaces
+namespace Core.Enums
 {
-    public interface IFileReader
+    public enum ResultStatus
     {
-        public IFile ReadFile(string path);
+        Unchanged,
+        Modified,
+        Removed,
+        Added
     }
 }

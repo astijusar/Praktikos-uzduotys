@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Part1
+namespace Core.Models
 {
     public class ComparisonResult
     {
-        public List<ComparisonResultEntry> ResultEntries { get; set; } = new List<ComparisonResultEntry>();
+        public List<ComparisonResultEntry> ResultEntries { get; set; } = new();
         public int Unchanged { get; set; } = 0;
         public int Modified { get; set; } = 0;
         public int Removed { get; set; } = 0;

@@ -5,11 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Part1.Interfaces
+namespace Core.Models
 {
-    public interface ICfgFile : IFile
+    public class FileModel
     {
+        public string Name { get; set; }
         public List<string> Metadata { get; set; }
         public Hashtable IdValuePairs { get; set; }
+
+        public FileModel()
+        {
+            Metadata = new List<string>();
+            IdValuePairs = new Hashtable();
+        }
     }
 }

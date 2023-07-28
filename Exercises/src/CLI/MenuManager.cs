@@ -1,41 +1,48 @@
-﻿using Part1.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Models;
+using Core.Utils;
 
-namespace Part1
+namespace CLI
 {
-    public class MenuManager : IMenuManager
+    public class MenuManager
     {
-        private IFile _sourceFile;
-        private IFile _targetFile;
-        private IFileInformationWriter _writer;
-        private ComparisonResult _result;
+        private readonly FileModel _sourceFile;
+        private readonly FileModel _targetFile;
+        private readonly ComparisonResult _result;
 
-        public MenuManager(IFile sourceFile, IFile targetFile, ComparisonResult result, IFileInformationWriter writer)
+        public MenuManager(FileModel sourceFile, FileModel targetFile, ComparisonResult result)
         {
             _sourceFile = sourceFile;
             _targetFile = targetFile;
             _result = result;
-            _writer = writer;
+        }
+
+        /// <summary>
+        /// Start of the navigation
+        /// </summary>
+        public void StartNavigation()
+        {
+            MainMenu();
         }
 
         /// <summary>
         /// Main menu after file path input and file comparison
         /// </summary>
-        public void MainMenu()
+        private void MainMenu()
         {
             Console.Clear();
-            _writer.WriteFileInformation(_sourceFile);
-            _writer.WriteFileInformation(_targetFile);
+            InformationWriter.WriteFileInformation(_sourceFile);
+            InformationWriter.WriteFileInformation(_targetFile);
             Console.WriteLine("[1] Show result summary");
             Console.WriteLine("[2] Show all results");
             Console.WriteLine("[3] Exit");
             Console.WriteLine();
 
-            uint choice = UserInputHandler.GetUserMenuChoice(3);
+            var choice = UserInputHandler.GetUserMenuChoice(3);
             switch (choice)
             {
                 case 1:
@@ -58,9 +65,9 @@ namespace Part1
         {
             Console.Clear();
 
-            _writer.WriteFileInformation(_sourceFile);
-            _writer.WriteFileInformation(_targetFile);
-            ComparisonResultInformationWriter.WriteResultSummaryInformation(_result);
+            InformationWriter.WriteFileInformation(_sourceFile);
+            InformationWriter.WriteFileInformation(_targetFile);
+            InformationWriter.WriteResultSummaryInformation(_result);
 
             UserInputHandler.AnyKeyInput("Press any key to go back...");
 
@@ -74,16 +81,16 @@ namespace Part1
         {
             Console.Clear();
 
-            _writer.WriteFileInformation(_sourceFile);
-            _writer.WriteFileInformation(_targetFile);
-            ComparisonResultInformationWriter.WriteResultSummaryInformation(_result);
-            ComparisonResultInformationWriter.WriteResultInformation(_result.ResultEntries);
+            InformationWriter.WriteFileInformation(_sourceFile);
+            InformationWriter.WriteFileInformation(_targetFile);
+            InformationWriter.WriteResultSummaryInformation(_result);
+            InformationWriter.WriteResultInformation(_result.ResultEntries);
 
             Console.WriteLine("[1] Filter by ID or status");
             Console.WriteLine("[2] Return");
             Console.WriteLine();
 
-            uint choice = UserInputHandler.GetUserMenuChoice(2);
+            var choice = UserInputHandler.GetUserMenuChoice(2);
             switch (choice)
             {
                 case 1:
@@ -108,7 +115,7 @@ namespace Part1
             var filteredByStatus = _result.ResultEntries;
             if (!string.IsNullOrEmpty(status))
             {
-                filteredByStatus = _result.ResultEntries.Where(r => r.Status.ToString().Equals(status)).ToList();
+                filteredByStatus = _result.ResultEntries.Where(r => r.Status.ToString().ToLower().Equals(status)).ToList();
             }
 
             Console.Clear();
@@ -117,12 +124,12 @@ namespace Part1
             var filteredById = filteredByStatus;
             if (!string.IsNullOrEmpty(id))
             {
-                filteredById = filteredByStatus.Where(r => r.ID.StartsWith(id)).ToList();
+                filteredById = filteredByStatus.Where(r => r.Id.StartsWith(id)).ToList();
             }
 
             Console.Clear();
-            _writer.WriteFileInformation(_sourceFile);
-            _writer.WriteFileInformation(_targetFile);
+            InformationWriter.WriteFileInformation(_sourceFile);
+            InformationWriter.WriteFileInformation(_targetFile);
             
             if (status != "" || id != "")
             {
@@ -130,14 +137,7 @@ namespace Part1
             }
             if (status != "")
             {
-                if (id != "")
-                {
-                    Console.Write($"Status - {status}, ");
-                }
-                else
-                {
-                    Console.Write($"Status - {status} \n");
-                }
+                Console.Write(id != "" ? $"Status - {status}, " : $"Status - {status} \n");
             }
             if (id != "")
             {
@@ -146,7 +146,7 @@ namespace Part1
 
             Console.WriteLine();
 
-            ComparisonResultInformationWriter.WriteResultInformation(filteredById);
+            InformationWriter.WriteResultInformation(filteredById);
 
             UserInputHandler.AnyKeyInput("Press any key to go back...");
 
