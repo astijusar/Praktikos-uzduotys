@@ -11,6 +11,12 @@ namespace Core
 {
     public class ConfigurationComparer : IConfigurationComparer
     {
+        /// <summary>
+        /// Compares two configuration file data
+        /// </summary>
+        /// <param name="source">The source file to compare</param>
+        /// <param name="target">The target file to compare against</param>
+        /// <returns>Returns the comparison result</returns>
         public ComparisonResult Compare(FileModel source, FileModel target)
         {
             var result = new ComparisonResult();

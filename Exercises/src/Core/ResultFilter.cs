@@ -10,6 +10,12 @@ namespace Core
 {
     public class ResultFilter : IResultFilter
     {
+        /// <summary>
+        /// Filters comparison results by given filters
+        /// </summary>
+        /// <param name="results">A list of results</param>
+        /// <param name="parameters">Parameters to filter by</param>
+        /// <returns>A filtered list of comparison results</returns>
         public List<ComparisonResultEntry> Filter(List<ComparisonResultEntry> results, ResultFilterParameters parameters)
         {
             var filteredResults = results;

@@ -14,6 +14,11 @@ namespace Core
 {
     public class ConfigurationReader : IConfigurationReader
     {
+        /// <summary>
+        /// Reads data from a gzipped file 
+        /// </summary>
+        /// <param name="path">File path</param>
+        /// <returns>FileModel object with file data</returns>
         public FileModel ReadFromFile(string path)
         {
             var fileModel = new FileModel

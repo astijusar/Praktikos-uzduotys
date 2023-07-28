@@ -20,6 +20,11 @@ namespace Core
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Validate a file when given its path
+        /// </summary>
+        /// <param name="filePath">File location</param>
+        /// <exception cref="IOException">Thrown if file size or extension are invalid</exception>
         public void Validate(string filePath)
         {
             var fileSizeLimit = _configuration["FileUploadSettings:SizeLimit"];
@@ -39,6 +44,11 @@ namespace Core
             }
         }
 
+        /// <summary>
+        /// Validate a file when given an IFormFile object
+        /// </summary>
+        /// <param name="file">IForm file object</param>
+        /// <exception cref="IOException">Thrown if file size or extension are invalid</exception>
         public void Validate(IFormFile file)
         {
             var fileSizeLimit = _configuration["FileUploadSettings:SizeLimit"];

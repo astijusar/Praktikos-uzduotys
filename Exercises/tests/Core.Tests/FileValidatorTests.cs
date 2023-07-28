@@ -58,7 +58,7 @@ namespace Core.Tests
         }
 
         [Fact]
-        public void ValidateIFormFile_NotConfigured_DoesNotThowException()
+        public void ValidateIFormFile_NotConfigured_DoesNotThrowException()
         {
             // Arrange
             _fileMock.Setup(f => f.Length).Returns(2000);
