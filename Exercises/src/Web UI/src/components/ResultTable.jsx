@@ -32,13 +32,13 @@ export default function ResultTable({ data }) {
   const getStatusRowClassName = (params) => {
     const status = params.row.status;
 
-    if (status === "unchanged") {
+    if (status === "Unchanged") {
       return "row-unchanged";
-    } else if (status === "added") {
+    } else if (status === "Added") {
       return "row-added";
-    } else if (status === "removed") {
+    } else if (status === "Removed") {
       return "row-removed";
-    } else if (status === "modified") {
+    } else if (status === "Modified") {
       return "row-modified";
     }
 

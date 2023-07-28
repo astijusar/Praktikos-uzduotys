@@ -28,10 +28,10 @@
     <Folder Include="TempFileStorage\" />
   </ItemGroup>
 
-	<ItemGroup>
-		<None Update="TempFileStorage\">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Update="TempFileStorage\test.txt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>

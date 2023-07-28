@@ -49,7 +49,7 @@ export default function FilterBar({
             <label className="form-check-label" htmlFor="checkboxUnchanged">
               Unchanged{" "}
               <span className="fw-bolder">
-                ({statusCount.unchanged})
+                ({statusCount.Unchanged})
               </span>
             </label>
           </div>
@@ -65,7 +65,7 @@ export default function FilterBar({
             <label className="form-check-label" htmlFor="checkboxModified">
               Modified{" "}
               <span className="fw-bolder">
-                ({statusCount.modified})
+                ({statusCount.Modified})
               </span>
             </label>
           </div>
@@ -81,7 +81,7 @@ export default function FilterBar({
             <label className="form-check-label" htmlFor="checkboxRemoved">
               Removed{" "}
               <span className="fw-bolder">
-                ({statusCount.removed})
+                ({statusCount.Removed})
               </span>
             </label>
           </div>
@@ -97,7 +97,7 @@ export default function FilterBar({
             <label className="form-check-label" htmlFor="checkboxAdded">
               Added{" "}
               <span className="fw-bolder">
-                ({statusCount.added})
+                ({statusCount.Added})
               </span>
             </label>
           </div>

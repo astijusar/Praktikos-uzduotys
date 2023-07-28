@@ -20,10 +20,10 @@ export default function App() {
     targetFile: null,
   });
   const [statusCount, setStatusCount] = useState({
-    unchanged: 0,
-    modified: 0,
-    added: 0,
-    removed: 0,
+    Unchanged: 0,
+    Modified: 0,
+    Added: 0,
+    Removed: 0,
   });
 
   function handleFileSelect(fileInputName, file) {
@@ -39,10 +39,10 @@ export default function App() {
       targetFile: null,
     });
     setStatusCount({
-      unchanged: 0,
-      modified: 0,
-      added: 0,
-      removed: 0,
+      Unchanged: 0,
+      Modified: 0,
+      Added: 0,
+      Removed: 0,
     });
     setComparisonResult(null);
     setIsActiveSubmitButton(false);
@@ -74,25 +74,25 @@ export default function App() {
         setComparisonResult(response.data.comparisonResult);
 
         const counts = {
-          unchanged: 0,
-          modified: 0,
-          added: 0,
-          removed: 0,
+          Unchanged: 0,
+          Modified: 0,
+          Added: 0,
+          Removed: 0,
         };
     
         response.data.comparisonResult.forEach((item) => {
           switch (item.status) {
-            case "unchanged":
-              counts.unchanged++;
+            case "Unchanged":
+              counts.Unchanged++;
               break;
-            case "modified":
-              counts.modified++;
+            case "Modified":
+              counts.Modified++;
               break;
-            case "added":
-              counts.added++;
+            case "Added":
+              counts.Added++;
               break;
-            case "removed":
-              counts.removed++;
+            case "Removed":
+              counts.Removed++;
               break;
             default:
               break;
