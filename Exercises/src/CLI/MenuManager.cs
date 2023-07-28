@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Interfaces;
 using Core.Models;
 using Core.Utils;
 
@@ -12,12 +13,14 @@ namespace CLI
     {
         private readonly FileModel _sourceFile;
         private readonly FileModel _targetFile;
+        private readonly IResultFilter _filter;
         private readonly ComparisonResult _result;
 
-        public MenuManager(FileModel sourceFile, FileModel targetFile, ComparisonResult result)
+        public MenuManager(FileModel sourceFile, FileModel targetFile, IResultFilter filter, ComparisonResult result)
         {
             _sourceFile = sourceFile;
             _targetFile = targetFile;
+            _filter = filter;
             _result = result;
         }
 
@@ -52,8 +55,6 @@ namespace CLI
                     FullResultMenu();
                     break;
                 case 3:
-                    break;
-                default:
                     break;
             }
         }
@@ -110,22 +111,20 @@ namespace CLI
         private void FilterResultsMenu()
         {
             Console.Clear();
-            var status = UserInputHandler.GetLineInput("Enter status to filter by (leave empty to not filter):");
 
-            var filteredByStatus = _result.ResultEntries;
-            if (!string.IsNullOrEmpty(status))
-            {
-                filteredByStatus = _result.ResultEntries.Where(r => r.Status.ToString().ToLower().Equals(status)).ToList();
-            }
+            var status = UserInputHandler.GetLineInput("Enter status to filter by (leave empty to not filter):");
 
             Console.Clear();
 
             var id = UserInputHandler.GetLineInput("Enter ID to filter by(leave empty to not filter):");
-            var filteredById = filteredByStatus;
-            if (!string.IsNullOrEmpty(id))
+
+            var filterParameters = new ResultFilterParameters
             {
-                filteredById = filteredByStatus.Where(r => r.Id.StartsWith(id)).ToList();
-            }
+                Id = id,
+                ResultStatus = status
+            };
+
+            var filteredResults = _filter.Filter(_result.ResultEntries, filterParameters);
 
             Console.Clear();
             InformationWriter.WriteFileInformation(_sourceFile);
@@ -146,7 +145,7 @@ namespace CLI
 
             Console.WriteLine();
 
-            InformationWriter.WriteResultInformation(filteredById);
+            InformationWriter.WriteResultInformation(filteredResults);
 
             UserInputHandler.AnyKeyInput("Press any key to go back...");
 

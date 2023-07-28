@@ -32,7 +32,9 @@ namespace CLI
 
             var result = cfgComparer.Compare(sourceFile, targetFile);
 
-            var menuManager = new MenuManager(sourceFile, targetFile, result);
+            IResultFilter filter = new ResultFilter();
+
+            var menuManager = new MenuManager(sourceFile, targetFile, filter, result);
 
             menuManager.StartNavigation();
         }
