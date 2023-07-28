@@ -1,31 +1,35 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Part2.Filters.ActionFilters;
-using Part2.Models.DTOs;
-using Part2.Models.RequestFeatures;
-using Part2.Services.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Threading.Tasks;
+using API.ActionFilters;
+using API.Services;
+using Core.Interfaces;
+using Core.Models;
+using Core.Models.DTOs;
 
-namespace Part2.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class FileComparisonController : ControllerBase
     {
-        private readonly IFileReaderService _fileReader;
-        private readonly IFileComparerService _fileComparer;
-        private readonly IResultFilterService _resultFilter;
+        private readonly IFileStorageService _fileStorageService;
+        private readonly IConfigurationReader _configurationReader;
+        private readonly IConfigurationComparer _configurationComparer;
+        private readonly IResultFilter _resultFilter;
         private readonly IMapper _mapper;
 
-        public FileComparisonController(IFileReaderService fileReader, IFileComparerService fileComparer,
-            IResultFilterService resultFilter, IMapper mapper)
+        public FileComparisonController(IFileStorageService storageService, IConfigurationReader reader,
+            IConfigurationComparer comparer, IResultFilter filter, IMapper mapper)
         {
-            _fileReader = fileReader;
-            _fileComparer = fileComparer;
-            _resultFilter = resultFilter;
+            _fileStorageService = storageService;
+            _configurationComparer = comparer;
+            _configurationReader = reader;
+            _resultFilter = filter;
             _mapper = mapper;
         }
 
@@ -43,14 +47,20 @@ namespace Part2.Controllers
         [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidateFilesAttribute))]
         public async Task<IActionResult> CompareFiles([Required]IFormFile sourceFile, [Required]IFormFile targetFile,
-            [FromQuery]FileComparisonParameters parameters)
+            [FromQuery]ResultFilterParameters parameters)
         {
-            var sourceFileData = await _fileReader.ReadFile(sourceFile);
-            var targetFileData = await _fileReader.ReadFile(targetFile);
+            var sourceFilePath = await _fileStorageService.SaveFileAsync(sourceFile);
+            var targetFilePath = await _fileStorageService.SaveFileAsync(targetFile);
 
-            var comparisonResults = await _fileComparer.CompareFiles(sourceFileData, targetFileData);
+            var sourceFileData = _configurationReader.ReadFromFile(sourceFilePath);
+            var targetFileData = _configurationReader.ReadFromFile(targetFilePath);
 
-            var filteredResults = _resultFilter.FilterComparisonResults(comparisonResults, parameters);
+            var comparisonResults = _configurationComparer.Compare(sourceFileData, targetFileData).ResultEntries;
+
+            var filteredResults = _resultFilter.Filter(comparisonResults, parameters);
+
+            _fileStorageService.DeleteFile(sourceFilePath);
+            _fileStorageService.DeleteFile(targetFilePath);
 
             var result = new ComparisonResultWithMetadataDto
             {

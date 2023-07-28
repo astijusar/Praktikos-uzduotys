@@ -1,12 +1,14 @@
-﻿using AutoMapper;
-using Part2.Models;
-using Part2.Models.DTOs;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
+using Core.Models.DTOs;
+using Core.Models;
 
-namespace Part2.Automapper
+namespace Core.mapper
 {
-    /// <summary>
-    /// A class to configure automapper mapping
-    /// </summary>
     public class MappingProfile : Profile
     {
         public MappingProfile()
@@ -17,7 +19,7 @@ namespace Part2.Automapper
                     opt => opt.MapFrom(src => src.Name)
                 );
 
-            CreateMap<ComparisonResult, ComparisonResultDto>();
+            CreateMap<ComparisonResultEntry, ComparisonResultDto>();
         }
     }
 }

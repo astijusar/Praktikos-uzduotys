@@ -20,4 +20,18 @@
     <PackageReference Include="System.Text.Encodings.Web" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TempFileStorage\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<None Update="TempFileStorage\">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 </Project>

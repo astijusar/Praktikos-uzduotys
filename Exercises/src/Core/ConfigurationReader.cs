@@ -16,21 +16,14 @@ namespace Core
     {
         public FileModel ReadFromFile(string path)
         {
-            var fileName = Path.GetFileName(path);
-            using var stream = File.OpenRead(path);
-            using var zippedStream = new GZipStream(stream, CompressionMode.Decompress);
-
-            return ReadFromStream(zippedStream, fileName);
-        }
-
-        public FileModel ReadFromStream(Stream stream, string fileName)
-        {
             var fileModel = new FileModel
             {
-                Name = fileName
+                Name = Path.GetFileName(path)
             };
 
-            using var streamReader = new StreamReader(stream);
+            using var stream = File.OpenRead(path);
+            using var zippedStream = new GZipStream(stream, CompressionMode.Decompress);
+            using var streamReader = new StreamReader(zippedStream);
 
             var line = streamReader.ReadToEnd();
             var pairs = line.Split(";");

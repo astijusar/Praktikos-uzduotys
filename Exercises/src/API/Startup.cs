@@ -7,9 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Part2.Filters.ActionFilters;
-using Part2.Services;
-using Part2.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,8 +14,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using API.ActionFilters;
+using API.Services;
+using Core;
+using Core.Interfaces;
+using Core.mapper;
 
-namespace Part2
+namespace API
 {
     public class Startup
     {
@@ -48,12 +50,19 @@ namespace Part2
 
             services.AddCors();
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(MappingProfile));
 
-            services.AddScoped<IFileValidatorService, FileValidatorService>();
+            /*services.AddScoped<IFileValidatorService, FileValidatorService>();
             services.AddScoped<IFileReaderService, FileReaderService>();
             services.AddScoped<IFileComparerService, FileComparerService>();
             services.AddScoped<IResultFilterService, ResultFilterService>();
+            services.AddScoped<ValidateFilesAttribute>();*/
+
+            services.AddScoped<IFileStorageService, FileStorageService>();
+            services.AddScoped<IConfigurationReader, ConfigurationReader>();
+            services.AddScoped<IConfigurationComparer, ConfigurationComparer>();
+            services.AddScoped<IFileValidator, FileValidator>();
+            services.AddScoped<IResultFilter, ResultFilter>();
             services.AddScoped<ValidateFilesAttribute>();
         }
 

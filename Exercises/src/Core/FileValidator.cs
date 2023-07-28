@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -35,6 +36,23 @@ namespace Core
             if (permittedExtensions != null && !permittedExtensions.Contains(fileExtension))
             {
                 throw new IOException($"File has invalid extension. File path: {filePath}");
+            }
+        }
+
+        public void Validate(IFormFile file)
+        {
+            var fileSizeLimit = _configuration["FileUploadSettings:SizeLimit"];
+            var permittedExtensions = _configuration["FileUploadSettings:PermittedExtensions"]?.Split(",");
+
+            if (file.Length > int.Parse(fileSizeLimit))
+            {
+                throw new IOException("File size exceeds the allowed limit.");
+            }
+
+            var fileExtension = Path.GetExtension(file.FileName)?.ToLowerInvariant();
+            if (permittedExtensions != null && !permittedExtensions.Contains(fileExtension))
+            {
+                throw new IOException("File has an invalid extension.");
             }
         }
     }

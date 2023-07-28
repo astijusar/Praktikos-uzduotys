@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Part2.Models.DTOs
+namespace Core.Models.DTOs
 {
     public class FileModelDto
     {
