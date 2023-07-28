@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Interfaces;
 using Core.Models;
-using Core.Utils;
 
 namespace CLI
 {
