@@ -53,7 +53,10 @@ namespace API.Controllers
             var targetFilePath = await _fileStorageService.SaveFileAsync(targetFile);
 
             var sourceFileData = _configurationReader.ReadFromFile(sourceFilePath);
+            sourceFileData.Name = sourceFile.FileName;
+
             var targetFileData = _configurationReader.ReadFromFile(targetFilePath);
+            targetFileData.Name = targetFile.FileName;
 
             var comparisonResults = _configurationComparer.Compare(sourceFileData, targetFileData).ResultEntries;
 
