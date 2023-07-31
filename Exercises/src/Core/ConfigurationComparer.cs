@@ -25,8 +25,10 @@ namespace Core
             {
                 if (target.IdValuePairs.ContainsKey(id))
                 {
-                    var sourceValue = source.IdValuePairs[id].ToString();
-                    var targetValue = target.IdValuePairs[id].ToString();
+                    var sourceValue = source.IdValuePairs[id]?.ToString();
+                    var targetValue = target.IdValuePairs[id]?.ToString();
+
+                    if (sourceValue == null) continue;
 
                     if (sourceValue.Equals(targetValue))
                     {
@@ -41,7 +43,7 @@ namespace Core
                 }
                 else
                 {
-                    var sourceValue = source.IdValuePairs[id].ToString();
+                    var sourceValue = source.IdValuePairs[id]?.ToString();
 
                     result.ResultEntries.Add(CreateComparisonResultEntry(id, sourceValue, "", ResultStatus.Removed));
                     result.Removed++;
@@ -52,7 +54,7 @@ namespace Core
             {
                 if (source.IdValuePairs.ContainsKey(id)) continue;
 
-                var targetValue = target.IdValuePairs[id].ToString();
+                var targetValue = target.IdValuePairs[id]?.ToString();
 
                 result.ResultEntries.Add(CreateComparisonResultEntry(id, "", targetValue, ResultStatus.Added));
                 result.Added++;
