@@ -94,8 +94,6 @@ export default function App() {
             case "Removed":
               counts.Removed++;
               break;
-            default:
-              break;
           }
         });
     
