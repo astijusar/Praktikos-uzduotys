@@ -11,5 +11,6 @@ namespace Core.Interfaces
     public interface IConfigurationReader
     {
         public FileModel ReadFromFile(string path);
+        public FileModel ReadFromStream(Stream stream, string fileName);
     }
 }

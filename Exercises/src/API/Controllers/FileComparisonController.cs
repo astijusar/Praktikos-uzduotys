@@ -17,16 +17,14 @@ namespace API.Controllers
     [ApiController]
     public class FileComparisonController : ControllerBase
     {
-        private readonly IFileStorageService _fileStorageService;
         private readonly IConfigurationReader _configurationReader;
         private readonly IConfigurationComparer _configurationComparer;
         private readonly IResultFilter _resultFilter;
         private readonly IMapper _mapper;
 
-        public FileComparisonController(IFileStorageService storageService, IConfigurationReader reader,
-            IConfigurationComparer comparer, IResultFilter filter, IMapper mapper)
+        public FileComparisonController(IConfigurationReader reader, IConfigurationComparer comparer, 
+            IResultFilter filter, IMapper mapper)
         {
-            _fileStorageService = storageService;
             _configurationComparer = comparer;
             _configurationReader = reader;
             _resultFilter = filter;
@@ -46,24 +44,15 @@ namespace API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidateFilesAttribute))]
-        public async Task<IActionResult> CompareFiles([Required]IFormFile sourceFile, [Required]IFormFile targetFile,
+        public IActionResult CompareFiles([Required]IFormFile sourceFile, [Required]IFormFile targetFile,
             [FromQuery]ResultFilterParameters parameters)
         {
-            var sourceFilePath = await _fileStorageService.SaveFileAsync(sourceFile);
-            var targetFilePath = await _fileStorageService.SaveFileAsync(targetFile);
-
-            var sourceFileData = _configurationReader.ReadFromFile(sourceFilePath);
-            sourceFileData.Name = sourceFile.FileName;
-
-            var targetFileData = _configurationReader.ReadFromFile(targetFilePath);
-            targetFileData.Name = targetFile.FileName;
+            var sourceFileData = _configurationReader.ReadFromStream(sourceFile.OpenReadStream(), sourceFile.FileName);
+            var targetFileData = _configurationReader.ReadFromStream(targetFile.OpenReadStream(), targetFile.FileName);
 
             var comparisonResults = _configurationComparer.Compare(sourceFileData, targetFileData).ResultEntries;
 
             var filteredResults = _resultFilter.Filter(comparisonResults, parameters);
-
-            _fileStorageService.DeleteFile(sourceFilePath);
-            _fileStorageService.DeleteFile(targetFilePath);
 
             var result = new ComparisonResultWithMetadataDto
             {

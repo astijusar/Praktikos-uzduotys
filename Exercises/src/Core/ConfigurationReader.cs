@@ -21,12 +21,18 @@ namespace Core
         /// <returns>FileModel object with file data</returns>
         public FileModel ReadFromFile(string path)
         {
+            using var stream = File.OpenRead(path);
+
+            return ReadFromStream(stream, Path.GetFileName(path));
+        }
+
+        public FileModel ReadFromStream(Stream stream, string fileName)
+        {
             var fileModel = new FileModel
             {
-                Name = Path.GetFileName(path)
+                Name = fileName
             };
 
-            using var stream = File.OpenRead(path);
             using var zippedStream = new GZipStream(stream, CompressionMode.Decompress);
             using var streamReader = new StreamReader(zippedStream);
 
