@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using Core;
 using Core.Interfaces;
 using Core.Models;
@@ -13,7 +14,7 @@ namespace CLI
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WindowWidth = 170;
 
@@ -21,11 +22,11 @@ namespace CLI
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build();
 
-            const string sourceFilePath = "FMB920-default.cfg";
-            const string targetFilePath = "FMB920-modified.cfg";
+            //const string sourceFilePath = "FMB920-default.cfg";
+            //const string targetFilePath = "FMB920-modified.cfg";
 
-            //string sourceFilePath = UserInputHandler.GetLineInput("Enter source file path:");
-            //string targetFilePath = UserInputHandler.GetLineInput("Enter target file path:");
+            var sourceFilePath = UserInputHandler.GetLineInput("Enter source file path:");
+            var targetFilePath = UserInputHandler.GetLineInput("Enter target file path:");
 
             Console.Clear();
 

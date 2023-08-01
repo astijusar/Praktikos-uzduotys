@@ -99,8 +99,6 @@ namespace CLI
                 case 2:
                     MainMenu();
                     break;
-                default:
-                    break;
             }
         }
 
