@@ -15,7 +15,6 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using API.ActionFilters;
-using API.Services;
 using Core;
 using Core.Interfaces;
 using Core.mapper;
@@ -58,7 +57,6 @@ namespace API
             services.AddScoped<IResultFilterService, ResultFilterService>();
             services.AddScoped<ValidateFilesAttribute>();*/
 
-            services.AddScoped<IFileStorageService, FileStorageService>();
             services.AddScoped<IConfigurationReader, ConfigurationReader>();
             services.AddScoped<IConfigurationComparer, ConfigurationComparer>();
             services.AddScoped<IFileValidator, FileValidator>();

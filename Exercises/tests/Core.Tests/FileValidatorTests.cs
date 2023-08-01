@@ -32,6 +32,70 @@ namespace Core.Tests
         }
 
         [Fact]
+        public void ValidateFile_InvalidSize_ThrowsIOException()
+        {
+            // Arrange
+            var fileName = "test1.cfg";
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                var buffer = new byte[2048];
+                fileStream.Write(buffer, 0, buffer.Length);
+            }
+
+            // Act and Assert
+            _fileValidator.Invoking(fv => fv.Validate(filePath))
+                .Should()
+                .Throw<IOException>()
+                .WithMessage($"File size exceeds the allowed limit. File path: {filePath}");
+
+            // Cleanup
+            File.Delete(filePath);
+        }
+
+        [Fact]
+        public void ValidateFile_InvalidExtension_ThrowsIOException()
+        {
+            // Arrange
+            var fileName = "test2.txt";
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+
+            using (var fileStream = File.Create(filePath)) { }
+
+            // Act and Assert
+            _fileValidator.Invoking(fv => fv.Validate(filePath))
+                .Should()
+                .Throw<IOException>()
+                .WithMessage($"File has invalid extension. File path: {filePath}");
+
+            // Cleanup
+            File.Delete(filePath);
+        }
+
+        [Fact]
+        public void ValidateFile_NotConfigured_DoesNotThrowException()
+        {
+            // Arrange
+            var fileName = "test3.cfg";
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                var buffer = new byte[100];
+                fileStream.Write(buffer, 0, buffer.Length);
+            }
+
+            // Act and Assert
+            _fileValidator.Invoking(fv => fv.Validate(filePath))
+                .Should()
+                .NotThrow<IOException>();
+
+            // Cleanup
+            File.Delete(filePath);
+        }
+
+        [Fact]
         public void validateIFormFile_InvalidSize_ThrowsIOException()
         {
             // Arrange

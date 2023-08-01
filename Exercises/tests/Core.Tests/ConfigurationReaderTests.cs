@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Interfaces;
+using Core.Models;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace Core.Tests
@@ -23,40 +27,64 @@ namespace Core.Tests
         public void ReadFile_ValidFile_ReturnsFileModel()
         {
             // Arrange
-            var testFile = "FMB920-default.cfg";
+            var fileName = "test1.cfg";
+            var fileContent = "1:value1;2:value2;id:metadata1";
+            var expectedFileModel = new FileModel
+            {
+                Name = fileName,
+                IdValuePairs =
+                {
+                    { "1", "value1" },
+                    { "2", "value2" }
+                },
+                Metadata = { "id:metadata1" }
+            };
+
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+            using (var fileStream = File.Create(filePath))
+            {
+                using (var gzStream = new GZipStream(fileStream, CompressionMode.Compress))
+                {
+                    using (var writer = new StreamWriter(gzStream))
+                    {
+                        writer.Write(fileContent);
+                    }
+                }
+            }
 
             // Act
-            var result = _configurationReader.ReadFromFile(testFile);
+            var result = _configurationReader.ReadFromFile(filePath);
 
             // Assert
-            result.Should().NotBeNull();
-            result.Name.Should().Be(testFile);
+            result.Should().BeEquivalentTo(expectedFileModel);
+
+            // Cleanup
+            File.Delete(filePath);
         }
 
         [Fact]
-        public void ReadFile_NoFileFound_ThrowsFileNotFoundException()
+        public void ReadFile_EmptyFile_ReturnsEmptyFileModel()
         {
             // Arrange
-            var testFile = "test.cfg";
+            var fileName = "test2.cfg";
+            var expectedFileModel = new FileModel
+            {
+                Name = fileName,
+                IdValuePairs = new Hashtable(),
+                Metadata = new List<string>()
+            };
 
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+            using (var fileStream = File.Create(filePath)) {}
+            
             // Act
-            var action = new Action(() => _configurationReader.ReadFromFile(testFile));
+            var result = _configurationReader.ReadFromFile(filePath);
 
             // Assert
-            action.Should().Throw<FileNotFoundException>();
-        }
+            result.Should().BeEquivalentTo(expectedFileModel);
 
-        [Fact]
-        public void ReadFile_NoDirectoryFound_ThrowsDirectoryNotFoundException()
-        {
-            // Arrange
-            var testFile = "randomDir/test.cfg";
-
-            // Act
-            var action = new Action(() => _configurationReader.ReadFromFile(testFile));
-
-            // Assert
-            action.Should().Throw<DirectoryNotFoundException>();
+            // Cleanup
+            File.Delete(filePath);
         }
     }
 }

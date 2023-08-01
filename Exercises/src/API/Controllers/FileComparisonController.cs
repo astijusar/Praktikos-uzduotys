@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading.Tasks;
 using API.ActionFilters;
-using API.Services;
 using Core.Interfaces;
 using Core.Models;
 using Core.Models.DTOs;
