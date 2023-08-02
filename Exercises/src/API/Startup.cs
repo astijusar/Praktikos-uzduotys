@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using API.ActionFilters;
 using Core;
 using Core.Interfaces;
-using Core.mapper;
+using Core.Mapper;
 
 namespace API
 {

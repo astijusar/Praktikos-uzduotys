@@ -7,7 +7,7 @@ using AutoMapper;
 using Core.Models.DTOs;
 using Core.Models;
 
-namespace Core.mapper
+namespace Core.Mapper
 {
     public class MappingProfile : Profile
     {
