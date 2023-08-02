@@ -26,14 +26,14 @@ export default function App() {
     Removed: 0,
   });
 
-  function handleFileSelect(fileInputName, file) {
+  const handleFileSelect = (fileInputName, file) => {
     setSelectedFiles((prevSelectedFiles) => ({
       ...prevSelectedFiles,
       [fileInputName]: file,
     }));
-  }
+  };
 
-  function handleReset() {
+  const handleReset = () => {
     setSelectedFiles({
       sourceFile: null,
       targetFile: null,
@@ -46,9 +46,9 @@ export default function App() {
     });
     setComparisonResult(null);
     setIsActiveSubmitButton(false);
-  }
+  };
 
-  async function handleSubmit(filters, search) {
+  const handleSubmit = async (filters, search) => {
     const formData = new FormData();
     formData.append("sourceFile", selectedFiles.sourceFile);
     formData.append("targetFile", selectedFiles.targetFile);
@@ -79,7 +79,7 @@ export default function App() {
           Added: 0,
           Removed: 0,
         };
-    
+
         response.data.comparisonResult.forEach((item) => {
           switch (item.status) {
             case "Unchanged":
@@ -96,7 +96,7 @@ export default function App() {
               break;
           }
         });
-    
+
         setStatusCount(counts);
         console.log(counts);
       })
@@ -107,7 +107,7 @@ export default function App() {
 
     setIsLoading(false);
     setIsActiveSubmitButton(true);
-  }
+  };
 
   useEffect(() => {
     if (selectedFiles.sourceFile && selectedFiles.targetFile) {

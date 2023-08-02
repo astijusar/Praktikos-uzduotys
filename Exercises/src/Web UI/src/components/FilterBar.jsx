@@ -15,34 +15,35 @@ export default function FilterBar({
     removed: false,
   });
 
-  function handleSearchChange(e) {
+  const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
-  }
+  };
 
-  function handleFilterChange(e) {
+  const handleFilterChange = (e) => {
     const { name, checked } = e.target;
     setFilters((prevFilters) => ({ ...prevFilters, [name]: checked }));
-  }
+  };
 
-  function handleSubmit() {
+  const handleSubmit = () => {
     const filterString = Object.entries(filters)
       .filter(([filter, checked]) => checked)
       .map(([filter, checked]) => filter)
       .join(",");
 
     onSubmit(filterString, searchValue);
-  }
+  };
 
-  function onReset() {
+  const onReset = () => {
     setFilters({
       unchanged: false,
       modified: false,
       added: false,
       removed: false,
     });
+    setSearchValue('');
 
     handleReset();
-  }
+  };
 
   return (
     <div className="container">
@@ -61,7 +62,7 @@ export default function FilterBar({
             <label className="form-check-label" htmlFor="checkboxUnchanged">
               Unchanged{" "}
               <span className="fw-bolder">
-                {statusCount.Unchanged !== 0 && `(${statusCount.Unchanged})`}
+                {statusCount.Unchanged !== 0 || filters.unchanged === true ? `(${statusCount.Unchanged})` : ''}
               </span>
             </label>
           </div>
@@ -78,7 +79,7 @@ export default function FilterBar({
             <label className="form-check-label" htmlFor="checkboxModified">
               Modified{" "}
               <span className="fw-bolder">
-                {statusCount.Modified !== 0 && `(${statusCount.Modified})`}
+                {statusCount.Modified !== 0 || filters.modified === true ? `(${statusCount.Modified})` : ''}
               </span>
             </label>
           </div>
@@ -95,7 +96,7 @@ export default function FilterBar({
             <label className="form-check-label" htmlFor="checkboxRemoved">
               Removed{" "}
               <span className="fw-bolder">
-                {statusCount.Removed !== 0 && `(${statusCount.Removed})`}
+                {statusCount.Removed !== 0 || filters.removed === true ? `(${statusCount.Removed})` : ''}
               </span>
             </label>
           </div>
@@ -112,7 +113,7 @@ export default function FilterBar({
             <label className="form-check-label" htmlFor="checkboxAdded">
               Added{" "}
               <span className="fw-bolder">
-                {statusCount.Added !== 0 && `(${statusCount.Added})`}
+                {statusCount.Added !== 0 || filters.unchanged === true ? `(${statusCount.Added})` : ''}
               </span>
             </label>
           </div>
