@@ -113,7 +113,7 @@ export default function FilterBar({
             <label className="form-check-label" htmlFor="checkboxAdded">
               Added{" "}
               <span className="fw-bolder">
-                {statusCount.Added !== 0 || filters.unchanged === true ? `(${statusCount.Added})` : ''}
+                {statusCount.Added !== 0 || filters.Added === true ? `(${statusCount.Added})` : ''}
               </span>
             </label>
           </div>
