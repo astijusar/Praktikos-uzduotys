@@ -33,6 +33,17 @@ export default function FilterBar({
     onSubmit(filterString, searchValue);
   }
 
+  function onReset() {
+    setFilters({
+      unchanged: false,
+      modified: false,
+      added: false,
+      removed: false,
+    });
+
+    handleReset();
+  }
+
   return (
     <div className="container">
       <div className="row filter-bar">
@@ -45,11 +56,12 @@ export default function FilterBar({
               name="unchanged"
               value="unchanged"
               onChange={handleFilterChange}
+              checked={filters.unchanged}
             />
             <label className="form-check-label" htmlFor="checkboxUnchanged">
               Unchanged{" "}
               <span className="fw-bolder">
-                ({statusCount.Unchanged})
+                {statusCount.Unchanged !== 0 && `(${statusCount.Unchanged})`}
               </span>
             </label>
           </div>
@@ -61,11 +73,12 @@ export default function FilterBar({
               name="modified"
               value="modified"
               onChange={handleFilterChange}
+              checked={filters.modified}
             />
             <label className="form-check-label" htmlFor="checkboxModified">
               Modified{" "}
               <span className="fw-bolder">
-                ({statusCount.Modified})
+                {statusCount.Modified !== 0 && `(${statusCount.Modified})`}
               </span>
             </label>
           </div>
@@ -77,11 +90,12 @@ export default function FilterBar({
               name="removed"
               value="removed"
               onChange={handleFilterChange}
+              checked={filters.removed}
             />
             <label className="form-check-label" htmlFor="checkboxRemoved">
               Removed{" "}
               <span className="fw-bolder">
-                ({statusCount.Removed})
+                {statusCount.Removed !== 0 && `(${statusCount.Removed})`}
               </span>
             </label>
           </div>
@@ -93,11 +107,12 @@ export default function FilterBar({
               name="added"
               value="added"
               onChange={handleFilterChange}
+              checked={filters.added}
             />
             <label className="form-check-label" htmlFor="checkboxAdded">
               Added{" "}
               <span className="fw-bolder">
-                ({statusCount.Added})
+                {statusCount.Added !== 0 && `(${statusCount.Added})`}
               </span>
             </label>
           </div>
@@ -121,7 +136,7 @@ export default function FilterBar({
           <button
             type="button"
             className="btn btn-outline-danger"
-            onClick={handleReset}
+            onClick={onReset}
           >
             Reset
           </button>
